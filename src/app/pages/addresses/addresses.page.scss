@@ -1,0 +1,101 @@
+.page-pad {
+  padding-bottom: 90px;
+}
+
+.address-card {
+  padding: 14px 16px;
+  margin-bottom: 12px;
+
+  &__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+
+  &__label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 800;
+    font-size: 0.9rem;
+    color: var(--tea-espresso);
+
+    ion-icon {
+      color: var(--tea-caramel-dark);
+    }
+  }
+
+  &__actions {
+    display: flex;
+    gap: 6px;
+
+    button {
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      border: none;
+      background: var(--tea-cream-deep);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      ion-icon {
+        font-size: 1rem;
+        color: var(--tea-brown);
+      }
+
+      &.danger ion-icon {
+        color: var(--ion-color-danger);
+      }
+    }
+  }
+
+  &__name {
+    margin: 0 0 2px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--tea-espresso);
+  }
+
+  &__text,
+  &__notes {
+    margin: 0;
+    font-size: 0.78rem;
+    line-height: 1.4;
+    color: var(--ion-color-medium-shade);
+  }
+
+  &__notes {
+    margin-top: 4px;
+    font-style: italic;
+  }
+}
+
+.locate-btn {
+  margin: 4px 0 14px;
+}
+
+.locate-hint {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: -6px;
+}
+
+.pick-btn {
+  --color: var(--tea-caramel-dark);
+  font-weight: 800;
+  text-transform: none;
+  align-self: center;
+}
+
+.default-pill {
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #E3EADF;
+  color: var(--tea-leaf-dark);
+  font-size: 0.62rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}

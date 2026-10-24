@@ -1,0 +1,59 @@
+.order-card {
+  display: block;
+  padding: 16px;
+  margin-bottom: 14px;
+  text-decoration: none;
+  color: inherit;
+
+  &__top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+
+  &__id {
+    margin: 0;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--tea-espresso);
+  }
+
+  &__date {
+    margin: 1px 0 0;
+    font-size: 0.72rem;
+    color: var(--ion-color-medium);
+  }
+
+  &__items {
+    margin: 0 0 12px;
+    font-size: 0.82rem;
+    color: var(--ion-color-medium-shade);
+    line-height: 1.4;
+  }
+
+  &__bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__pay {
+    display: block;
+    font-size: 0.7rem;
+    color: var(--ion-color-medium);
+  }
+}
+
+.reorder-btn {
+  --border-color: var(--tea-brown);
+  --color: var(--tea-brown);
+  font-weight: 600;
+  font-size: 0.75rem;
+}
+
+.pay-btn {
+  height: 32px;
+  font-size: 0.75rem;
+}

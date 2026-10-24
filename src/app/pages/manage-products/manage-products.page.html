@@ -1,0 +1,145 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Manage Products</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="page-pad">
+
+    <div class="notice notice--danger" *ngIf="productService.error()">
+      <ion-icon name="alert-circle-outline"></ion-icon>
+      <span>{{ productService.error() }} Changes can't be saved until the server is reachable.</span>
+    </div>
+
+    <ion-searchbar
+      [(ngModel)]="searchTerm"
+      placeholder="Search products"
+      class="tea-searchbar"
+      show-clear-button="focus"
+    ></ion-searchbar>
+
+    <p class="count-line">{{ products.length }} product(s)</p>
+
+    <div class="manage-list" *ngIf="products.length; else emptyState">
+      <div class="manage-row" *ngFor="let product of products">
+        <div class="manage-row__image">
+          <ion-icon name="cafe-outline"></ion-icon>
+          <img [src]="product.image" [alt]="product.name" (error)="hideImage($event)" />
+        </div>
+        <div class="manage-row__body">
+          <h3>
+            {{ product.name }}
+            <span class="hidden-pill" *ngIf="product.available === false"><ion-icon name="eye-off-outline"></ion-icon> Hidden</span>
+          </h3>
+          <p class="manage-row__meta">{{ product.category }} • ₱{{ product.price }}</p>
+          <p class="manage-row__desc">{{ product.description }}</p>
+        </div>
+        <div class="manage-row__actions">
+          <button class="icon-btn" (click)="openEditForm(product)" aria-label="Edit">
+            <ion-icon name="create-outline"></ion-icon>
+          </button>
+          <button class="icon-btn icon-btn--danger" (click)="confirmDelete(product)" aria-label="Delete">
+            <ion-icon name="trash-outline"></ion-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #emptyState>
+      <div class="empty-state">
+        <ion-icon name="cafe-outline"></ion-icon>
+        <h3>No products yet</h3>
+        <p>Tap the + button to add your first product.</p>
+      </div>
+    </ng-template>
+
+    <button class="reset-link" (click)="confirmReset()">Reset to original 30-product catalog</button>
+
+  </div>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="openAddForm()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <!-- Add / Edit modal -->
+  <ion-modal [isOpen]="isModalOpen" (didDismiss)="closeModal()">
+    <ng-template>
+      <ion-header class="ion-no-border">
+        <ion-toolbar>
+          <ion-title>{{ modalTitle }}</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="closeModal()">
+              <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="form-content">
+        <div class="page-pad">
+
+          <ion-item class="form-item" lines="none">
+            <ion-input label="Product name" labelPlacement="stacked" [(ngModel)]="form.name" placeholder="e.g. Brown Sugar Milk Tea"></ion-input>
+          </ion-item>
+
+          <ion-item class="form-item" lines="none">
+            <ion-select label="Category" labelPlacement="stacked" [(ngModel)]="form.category" interface="popover">
+              <ion-select-option *ngFor="let category of categories" [value]="category">
+                {{ category }}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item class="form-item" lines="none">
+            <ion-input label="Price (₱, medium size)" labelPlacement="stacked" type="number" inputmode="decimal" [(ngModel)]="form.price" placeholder="e.g. 109"></ion-input>
+          </ion-item>
+
+          <ion-item class="form-item" lines="none">
+            <ion-textarea
+              label="Description"
+              labelPlacement="stacked"
+              [(ngModel)]="form.description"
+              rows="3"
+              placeholder="Short description shown on the menu"
+            ></ion-textarea>
+          </ion-item>
+
+          <ion-item class="form-item" lines="none">
+            <ion-input label="Image URL or path (optional)" labelPlacement="stacked" [(ngModel)]="form.image" placeholder="https://… or assets/products/example.jpg"></ion-input>
+          </ion-item>
+
+          <ion-item class="form-item" lines="none">
+            <ion-input label="Rating (optional, 0–5)" labelPlacement="stacked" type="number" inputmode="decimal" [(ngModel)]="form.rating" placeholder="e.g. 4.7"></ion-input>
+          </ion-item>
+
+          <ion-item class="form-item form-item--inline" lines="none">
+            <ion-checkbox [(ngModel)]="form.popular" labelPlacement="end" justify="start">Mark as bestseller</ion-checkbox>
+          </ion-item>
+
+          <ion-item class="form-item form-item--inline" lines="none">
+            <ion-checkbox [(ngModel)]="form.available" labelPlacement="end" justify="start">Show on the menu (available to order)</ion-checkbox>
+          </ion-item>
+
+          <ion-button expand="block" shape="round" class="save-btn" (click)="save()" [disabled]="saving()">
+            <ion-spinner *ngIf="saving()" name="crescent"></ion-spinner>
+            <ng-container *ngIf="!saving()">
+              <ion-icon slot="start" name="save-outline"></ion-icon>
+              Save Product
+            </ng-container>
+          </ion-button>
+
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+</ion-content>

@@ -1,0 +1,335 @@
+/*
+ * TeaRush — Global styles
+ * Import Ionic core + our two-typeface system, plus small utility
+ * classes reused across pages so individual page stylesheets stay lean.
+ */
+
+/* Core Ionic CSS (keep whatever your project already imports here) */
+@import "@ionic/angular/css/core.css";
+@import "@ionic/angular/css/normalize.css";
+@import "@ionic/angular/css/structure.css";
+@import "@ionic/angular/css/typography.css";
+@import "@ionic/angular/css/display.css";
+@import "@ionic/angular/css/padding.css";
+@import "@ionic/angular/css/float-elements.css";
+@import "@ionic/angular/css/text-alignment.css";
+@import "@ionic/angular/css/text-transformation.css";
+@import "@ionic/angular/css/flex-utils.css";
+
+/* Brand fonts are loaded via <link> tags in index.html (not @import here) —
+   Angular's production build tries to fetch and inline @import'd Google
+   Fonts at build time, which fails in restricted/offline environments. */
+
+/* ---------------- Utility classes ---------------- */
+
+.section-title {
+  font-family: var(--tea-font-display);
+  font-weight: 600;
+  font-size: 1.15rem;
+  color: var(--tea-espresso);
+  margin: 0 0 4px;
+}
+
+.section-subtitle {
+  font-family: var(--tea-font-body);
+  font-size: 0.85rem;
+  color: var(--ion-color-medium);
+  margin: 0 0 12px;
+}
+
+.tea-card {
+  background: var(--tea-surface);
+  border-radius: 16px;
+  box-shadow: 0 6px 16px rgba(60, 36, 21, 0.08);
+  border: 1px solid var(--tea-line);
+}
+
+.tea-chip {
+  --background: var(--tea-cream-deep);
+  --color: var(--tea-espresso);
+  font-family: var(--tea-font-body);
+  font-weight: 600;
+}
+
+.price-tag {
+  font-family: var(--tea-font-display);
+  font-weight: 600;
+  color: var(--tea-caramel-dark);
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 48px 24px;
+  color: var(--ion-color-medium);
+
+  ion-icon {
+    font-size: 56px;
+    color: var(--tea-line);
+    margin-bottom: 12px;
+  }
+}
+
+ion-content {
+  --background: var(--tea-cream);
+}
+
+ion-toolbar {
+  --background: var(--tea-surface);
+  --color: var(--tea-espresso);
+}
+
+/* ---------------- Shared building blocks ---------------- */
+
+.page-pad {
+  padding: 12px 18px 28px;
+}
+
+.option-label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--tea-espresso);
+  margin: 0 0 8px;
+}
+
+.tea-segment {
+  --background: var(--tea-cream-deep);
+  border-radius: 12px;
+  margin-bottom: 18px;
+
+  ion-segment-button {
+    --color: var(--ion-color-medium-shade);
+    --color-checked: var(--tea-espresso);
+    --indicator-color: var(--tea-surface);
+    font-size: 0.78rem;
+    font-weight: 700;
+    min-height: 36px;
+    text-transform: none;
+  }
+}
+
+.tea-segment--scroll ion-segment-button {
+  min-width: 88px;
+}
+
+.tea-searchbar {
+  --background: var(--tea-cream-deep);
+  --border-radius: 14px;
+  --box-shadow: none;
+  --placeholder-color: var(--ion-color-medium);
+  --icon-color: var(--tea-caramel-dark);
+  padding: 0 0 6px;
+}
+
+/* Category filter chips + product list (Home and Products pages) */
+.category-scroll {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 16px;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar { display: none; }
+}
+
+.category-chip {
+  --background: var(--tea-cream-deep);
+  color: var(--tea-espresso);
+  font-weight: 600;
+  font-size: 0.82rem;
+  flex-shrink: 0;
+  margin: 0;
+}
+
+.category-chip--active {
+  --background: var(--tea-brown);
+  color: #fff;
+}
+
+.product-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Form fields */
+.form-item {
+  --background: var(--tea-surface);
+  --border-radius: 12px;
+  margin-bottom: 14px;
+  border: 1px solid var(--tea-line);
+  border-radius: 12px;
+
+  ion-label {
+    font-weight: 600;
+    font-size: 0.8rem;
+    color: var(--tea-espresso);
+  }
+}
+
+.form-item--inline {
+  display: flex;
+  align-items: center;
+  --min-height: 46px;
+
+  ion-label {
+    margin-left: 10px;
+  }
+}
+
+/* 6-digit verification code: spaced digits, normal label */
+.code-item input {
+  font-size: 1.4rem !important;
+  font-weight: 700;
+  letter-spacing: 0.4em;
+}
+
+.form-hint {
+  margin: -8px 4px 14px;
+  font-size: 0.72rem;
+  color: var(--ion-color-medium);
+}
+
+.form-error {
+  margin: 0 0 14px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #F6DCD8;
+  color: var(--ion-color-danger-shade);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+/* Primary brown button */
+.tea-btn {
+  --background: var(--tea-brown);
+  --background-activated: var(--tea-espresso);
+  --box-shadow: none;
+  font-weight: 700;
+  height: 48px;
+}
+
+.tea-btn--outline {
+  --border-color: var(--tea-brown);
+  --color: var(--tea-brown);
+  font-weight: 700;
+}
+
+/* Sticky bottom bar with a total + CTA (product detail, customize, cart, checkout) */
+.checkout-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 12px 20px calc(12px + var(--ion-safe-area-bottom, 0px));
+  background: var(--tea-surface);
+  border-top: 1px solid var(--tea-line);
+
+  &__total {
+    span {
+      display: block;
+      font-size: 0.72rem;
+      color: var(--ion-color-medium);
+    }
+
+    p {
+      margin: 0;
+      font-size: 1.25rem;
+    }
+  }
+
+  &__cta {
+    --background: var(--tea-brown);
+    --background-activated: var(--tea-espresso);
+    --box-shadow: none;
+    font-weight: 700;
+    flex: 1;
+    max-width: 220px;
+    height: 48px;
+  }
+}
+
+/* Order status pill */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+  background: #EAE6E1;
+  color: var(--ion-color-medium-shade);
+
+  ion-icon {
+    font-size: 0.8rem;
+  }
+
+  &[data-status='awaiting_payment'] {
+    background: #F6DCD8;
+    color: var(--ion-color-danger-shade);
+  }
+
+  &[data-status='pending'],
+  &[data-status='preparing'] {
+    background: #F3E1CB;
+    color: var(--tea-caramel-dark);
+  }
+
+  &[data-status='out_for_delivery'],
+  &[data-status='ready_for_pickup'] {
+    background: #E3EADF;
+    color: var(--tea-leaf-dark);
+  }
+}
+
+/* Inline notice (offline, errors, info) */
+.notice {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  margin-bottom: 14px;
+  border-radius: 14px;
+  background: #F3E1CB;
+  color: var(--tea-caramel-dark);
+  font-size: 0.8rem;
+  font-weight: 600;
+
+  ion-icon {
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+
+  span {
+    flex: 1;
+  }
+
+  button {
+    background: none;
+    border: none;
+    padding: 0;
+    font-weight: 800;
+    color: inherit;
+    text-decoration: underline;
+  }
+
+  &--danger {
+    background: #F6DCD8;
+    color: var(--ion-color-danger-shade);
+  }
+
+  &--leaf {
+    background: #E3EADF;
+    color: var(--tea-leaf-dark);
+  }
+}
+
+.center-spinner {
+  display: flex;
+  justify-content: center;
+  padding: 48px 0;
+}

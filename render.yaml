@@ -1,0 +1,46 @@
+# Render Blueprint for the TeaRush API (https://render.com/docs/blueprint-spec)
+# Render dashboard → New → Blueprint → pick this repo. You'll be asked for the
+# values marked `sync: false`.
+services:
+  - type: web
+    name: tearush-api
+    runtime: node
+    rootDir: server
+    # NOTE: the free plan's disk is wiped on every deploy/restart, so accounts and
+    # orders reset. For real use switch to `starter` and uncomment the disk below.
+    plan: free
+    buildCommand: npm install --omit=dev
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        generateValue: true
+      - key: ADMIN_EMAIL
+        value: admin@tearush.app
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: PAYMONGO_SECRET_KEY
+        sync: false
+      - key: PAYMONGO_WEBHOOK_SECRET
+        sync: false
+      - key: PAYMONGO_METHODS
+        value: gcash,paymaya,card,grab_pay
+      # Email verification codes (see server/.env.example for Gmail settings)
+      - key: SMTP_HOST
+        sync: false
+      - key: SMTP_PORT
+        value: "465"
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASS
+        sync: false
+      - key: EMAIL_DEMO_MODE
+        value: "false"
+      # - key: DATA_DIR
+      #   value: /var/data
+    # disk:
+    #   name: tearush-data
+    #   mountPath: /var/data
+    #   sizeGB: 1

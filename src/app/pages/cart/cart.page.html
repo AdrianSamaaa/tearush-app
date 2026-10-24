@@ -1,0 +1,84 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>My Cart</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="page-pad" *ngIf="cart.items().length; else emptyCart">
+
+    <div class="cart-item" *ngFor="let item of cart.items()">
+      <div class="cart-item__image">
+        <ion-icon name="cafe-outline"></ion-icon>
+        <img [src]="item.image" [alt]="item.name" (error)="hideImage($event)" />
+      </div>
+      <div class="cart-item__body">
+        <h3>{{ item.name }}</h3>
+        <p class="cart-item__meta">{{ item.size }} • {{ item.sugar }} sugar • {{ item.ice }}</p>
+        <p class="cart-item__toppings" *ngIf="item.options?.milk && item.options?.milk !== 'None'">
+          {{ item.options?.milk }}
+        </p>
+        <p class="cart-item__toppings" *ngIf="item.toppings.length">
+          + {{ item.toppings.join(', ') }}
+        </p>
+        <div class="cart-item__footer">
+          <span class="price-tag">{{ item.unitPrice * item.quantity | peso }}</span>
+          <div class="stepper">
+            <button (click)="decrement(item.id, item.quantity)" aria-label="Decrease quantity">
+              <ion-icon name="remove-circle-outline"></ion-icon>
+            </button>
+            <span>{{ item.quantity }}</span>
+            <button (click)="increment(item.id, item.quantity)" aria-label="Increase quantity">
+              <ion-icon name="add-circle-outline"></ion-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+      <button class="cart-item__remove" (click)="remove(item.id)" aria-label="Remove">
+        <ion-icon name="trash-outline"></ion-icon>
+      </button>
+    </div>
+
+    <div class="promo-hint" *ngIf="cart.promoCode()">
+      <ion-icon name="pricetag-outline"></ion-icon>
+      <span>Promo <strong>{{ cart.promoCode() }}</strong> will be applied at checkout</span>
+    </div>
+
+    <div class="order-summary tea-card">
+      <div class="order-summary__row">
+        <span>Subtotal</span>
+        <span>{{ cart.subtotal() | peso }}</span>
+      </div>
+      <div class="order-summary__row">
+        <span>Delivery fee</span>
+        <span>{{ deliveryFee | peso }}</span>
+      </div>
+      <div class="order-summary__row order-summary__row--total">
+        <span>Estimated total</span>
+        <span>{{ total | peso }}</span>
+      </div>
+      <p class="order-summary__note">Promos, pickup and final prices are confirmed at checkout.</p>
+    </div>
+
+  </div>
+
+  <ng-template #emptyCart>
+    <div class="empty-state">
+      <ion-icon name="cart-outline"></ion-icon>
+      <h3>Your cart is empty</h3>
+      <p>Add a drink from the menu to get started.</p>
+      <ion-button shape="round" class="tea-btn" routerLink="/products">Browse the menu</ion-button>
+    </div>
+  </ng-template>
+</ion-content>
+
+<ion-footer class="ion-no-border" *ngIf="cart.items().length">
+  <div class="checkout-bar">
+    <ion-button expand="block" shape="round" class="checkout-bar__cta" (click)="checkout()">
+      {{ auth.isLoggedIn() ? 'Proceed to Checkout' : 'Log in to Checkout' }} • {{ total | peso }}
+    </ion-button>
+  </div>
+</ion-footer>

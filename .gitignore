@@ -1,0 +1,33 @@
+# Dependencies
+node_modules/
+server/node_modules/
+
+# Build output
+www/
+dist/
+apk/
+.angular/
+out-tsc/
+
+# Server data + secrets
+server/data/
+server/.env
+.env
+
+# Android build output + signing secrets
+android/app/build/
+android/build/
+android/.gradle/
+android/local.properties
+android/keystore.properties
+android/*.jks
+android/app/*.jks
+*.keystore
+
+# Editors / OS
+.claude/
+.idea/
+.vscode/*
+!.vscode/extensions.json
+.DS_Store
+Thumbs.db

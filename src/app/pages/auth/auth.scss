@@ -1,0 +1,126 @@
+.auth {
+  max-width: 440px;
+  margin: 0 auto;
+  padding: 8px 22px 32px;
+
+  &__brand {
+    text-align: center;
+    margin-bottom: 22px;
+
+    h1 {
+      font-family: var(--tea-font-display);
+      font-size: 1.55rem;
+      margin: 14px 0 4px;
+      color: var(--tea-espresso);
+    }
+
+    p {
+      margin: 0;
+      font-size: 0.88rem;
+      color: var(--ion-color-medium);
+    }
+  }
+
+  &__logo {
+    width: 72px;
+    height: 72px;
+    margin: 0 auto;
+    border-radius: 22px;
+    background: linear-gradient(160deg, var(--tea-brown), var(--tea-espresso));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      width: 46px;
+      height: 46px;
+    }
+  }
+
+  &__form {
+    ion-button {
+      margin-top: 6px;
+    }
+  }
+
+  &__switch {
+    text-align: center;
+    font-size: 0.86rem;
+    color: var(--ion-color-medium-shade);
+    margin: 22px 0 10px;
+
+    a {
+      font-weight: 800;
+      color: var(--tea-caramel-dark);
+      text-decoration: none;
+    }
+  }
+
+  &__guest {
+    display: block;
+    text-align: center;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--ion-color-medium);
+  }
+
+  &__logo--icon ion-icon {
+    font-size: 2.2rem;
+    color: var(--tea-caramel);
+  }
+
+  .link {
+    background: none;
+    border: none;
+    padding: 0;
+    font-weight: 800;
+    color: var(--tea-caramel-dark);
+
+    &:disabled {
+      color: var(--ion-color-medium);
+      font-weight: 600;
+    }
+  }
+
+  .demo-code {
+    display: flex;
+    gap: 10px;
+    padding: 12px 14px;
+    margin-bottom: 14px;
+    border-radius: 14px;
+    background: #F3E1CB;
+    color: var(--tea-espresso);
+    font-size: 0.8rem;
+    line-height: 1.45;
+
+    ion-icon {
+      font-size: 1.2rem;
+      color: var(--tea-caramel-dark);
+      flex-shrink: 0;
+    }
+
+    &__value {
+      display: inline-block;
+      margin: 0 6px;
+      font-size: 1rem;
+      font-weight: 800;
+      letter-spacing: 0.15em;
+    }
+
+    button {
+      background: none;
+      border: none;
+      padding: 0;
+      font-weight: 800;
+      color: var(--tea-caramel-dark);
+      text-decoration: underline;
+    }
+  }
+
+  &__terms {
+    font-size: 0.72rem;
+    color: var(--ion-color-medium);
+    text-align: center;
+    margin: 12px 0 0;
+  }
+}

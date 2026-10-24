@@ -1,0 +1,62 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/dashboard" text=""></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="auth">
+    <div class="auth__brand">
+      <div class="auth__logo">
+        <img src="assets/logo/tearush-logo-placeholder.svg" alt="TeaRush logo" />
+      </div>
+      <h1>Welcome back</h1>
+      <p>Log in to order, pay and track your milk tea.</p>
+    </div>
+
+    <form (ngSubmit)="submit()" class="auth__form">
+      <p class="form-error" *ngIf="error()">{{ error() }}</p>
+
+      <ion-item class="form-item" lines="none">
+        <ion-input
+          label="Email"
+          labelPlacement="stacked"
+          type="email"
+          inputmode="email"
+          autocomplete="email"
+          name="email"
+          [(ngModel)]="email"
+          placeholder="you@example.com"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item class="form-item" lines="none">
+        <ion-input
+          label="Password"
+          labelPlacement="stacked"
+          type="password"
+          autocomplete="current-password"
+          name="password"
+          [(ngModel)]="password"
+          placeholder="Your password"
+          (keyup.enter)="submit()"
+        >
+          <ion-input-password-toggle slot="end"></ion-input-password-toggle>
+        </ion-input>
+      </ion-item>
+
+      <ion-button type="submit" expand="block" shape="round" class="tea-btn" [disabled]="busy()">
+        <ion-spinner *ngIf="busy()" name="crescent"></ion-spinner>
+        <span *ngIf="!busy()">Log in</span>
+      </ion-button>
+    </form>
+
+    <p class="auth__switch">
+      New to TeaRush?
+      <a [routerLink]="['/register']" [queryParams]="{ returnUrl: returnUrl }" replaceUrl="true">Create an account</a>
+    </p>
+    <a class="auth__guest" routerLink="/dashboard" replaceUrl="true">Continue browsing as guest</a>
+  </div>
+</ion-content>

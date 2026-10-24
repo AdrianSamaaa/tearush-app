@@ -1,0 +1,40 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Developers</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="page-pad">
+
+    <div class="team-intro">
+      <ion-icon name="people-outline"></ion-icon>
+      <div>
+        <h1>Meet the TeaRush team</h1>
+        <p>The developers behind this Final Project application.</p>
+      </div>
+    </div>
+
+    <div class="dev-card tea-card" *ngFor="let dev of developers">
+      <div class="dev-card__photo">
+        <img
+          [src]="dev.photo"
+          [alt]="dev.name"
+          (error)="onImageError($event)"
+        />
+      </div>
+      <div class="dev-card__body">
+        <h2>{{ dev.name }}</h2>
+        <p class="dev-card__role">{{ dev.role }}</p>
+        <p class="dev-card__bio">{{ dev.bio }}</p>
+        <div class="dev-card__skills">
+          <span class="skill-chip" *ngFor="let skill of dev.skills">{{ skill }}</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</ion-content>

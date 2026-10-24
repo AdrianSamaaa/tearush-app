@@ -1,0 +1,123 @@
+:host {
+  display: block;
+}
+
+.product-card {
+  display: flex;
+  gap: 14px;
+  text-decoration: none;
+  background: var(--tea-surface);
+  border-radius: 18px;
+  padding: 12px;
+  border: 1px solid var(--tea-line);
+
+  &__image {
+    position: relative;
+    flex: 0 0 84px;
+    height: 84px;
+    border-radius: 14px;
+    background: var(--tea-cream-deep);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+
+    ion-icon {
+      font-size: 1.9rem;
+      color: var(--tea-caramel);
+    }
+
+    img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &__badge {
+    position: absolute;
+    bottom: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--tea-leaf);
+    color: #fff;
+    font-size: 0.55rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 8px;
+    white-space: nowrap;
+  }
+
+  &__body {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__category {
+    margin: 0;
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: var(--tea-leaf-dark);
+  }
+
+  h3 {
+    margin: 2px 0 3px;
+    font-family: var(--tea-font-display);
+    font-size: 1rem;
+    color: var(--tea-espresso);
+  }
+
+  &__desc {
+    margin: 0 0 8px;
+    font-size: 0.78rem;
+    color: var(--ion-color-medium);
+    line-height: 1.35;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  &__footer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  &__rating {
+    flex: 1;
+    font-size: 0.75rem;
+    color: var(--ion-color-medium-shade);
+    font-weight: 600;
+
+    ion-icon {
+      font-size: 0.75rem;
+      color: var(--tea-caramel);
+      vertical-align: -1px;
+    }
+  }
+
+  &__add {
+    margin-left: auto;
+    width: 34px;
+    height: 34px;
+    border-radius: 12px;
+    border: none;
+    background: var(--tea-brown);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    ion-icon {
+      font-size: 1.2rem;
+      color: #fff;
+    }
+
+    &:active {
+      background: var(--tea-espresso);
+    }
+  }
+}

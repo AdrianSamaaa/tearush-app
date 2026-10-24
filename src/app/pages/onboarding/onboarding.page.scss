@@ -1,0 +1,115 @@
+.onboarding-content {
+  --background: var(--tea-cream);
+}
+
+.onboarding {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 28px 28px;
+}
+
+.onboarding__skip {
+  align-self: flex-end;
+  background: none;
+  border: none;
+  font-family: var(--tea-font-body);
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--ion-color-medium);
+  padding: 8px;
+}
+
+.onboarding__track {
+  flex: 1;
+  position: relative;
+}
+
+.onboarding__slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  opacity: 0;
+  transform: translateX(16px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  pointer-events: none;
+  padding: 0 6px;
+
+  &--active {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+  }
+
+  h1 {
+    font-family: var(--tea-font-display);
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--tea-espresso);
+    margin: 4px 0 10px;
+    line-height: 1.25;
+  }
+
+  p {
+    font-size: 0.95rem;
+    color: var(--ion-color-medium-shade);
+    line-height: 1.5;
+    max-width: 320px;
+  }
+}
+
+.onboarding__art {
+  width: 190px;
+  height: 190px;
+  border-radius: 50%;
+  background: var(--tea-cream-deep);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 28px;
+
+  img {
+    width: 96px;
+    height: 96px;
+    object-fit: contain;
+  }
+}
+
+.onboarding__footer {
+  padding-top: 12px;
+}
+
+.onboarding__dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 22px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--tea-line);
+  transition: all 0.25s ease;
+
+  &--active {
+    width: 22px;
+    border-radius: 4px;
+    background: var(--tea-caramel);
+  }
+}
+
+.onboarding__cta {
+  --background: var(--tea-brown);
+  --background-activated: var(--tea-espresso);
+  --box-shadow: none;
+  font-family: var(--tea-font-body);
+  font-weight: 700;
+  height: 50px;
+}

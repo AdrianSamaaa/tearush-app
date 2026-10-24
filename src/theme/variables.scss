@@ -1,0 +1,120 @@
+/*
+ * TeaRush — Design Tokens
+ * Palette drawn from brown-sugar milk tea: dark roasted espresso brown,
+ * caramel/brown-sugar gold, tea-leaf green, and a warm milky cream base.
+ * Two typefaces: "Fraunces" (warm display serif, used sparingly for
+ * headings/brand moments) and "Manrope" (clean humanist sans for UI/body).
+ */
+
+:root {
+  /* ---------- Brand palette ---------- */
+  --tea-espresso: #3C2415;   /* darkest roast — text, headers            */
+  --tea-brown: #5B3A29;      /* primary brand brown                      */
+  --tea-caramel: #C6873F;    /* brown-sugar gold — secondary/accent      */
+  --tea-caramel-dark: #A56A2C;
+  --tea-leaf: #5F7A55;       /* muted tea-leaf green — tertiary/fresh    */
+  --tea-leaf-dark: #46603D;
+  --tea-cream: #FBF3E6;      /* app background                           */
+  --tea-cream-deep: #F3E4CE; /* section backgrounds / menu               */
+  --tea-surface: #FFFDF9;    /* card surfaces                            */
+  --tea-pearl: #2A1B12;      /* boba pearl — used for dark accents       */
+  --tea-line: #E7D7BE;       /* hairline borders on cream                */
+
+  /* ---------- Typography ---------- */
+  --tea-font-display: 'Fraunces', 'Times New Roman', serif;
+  --tea-font-body: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  /* ---------- Ionic color: primary (espresso brown) ---------- */
+  --ion-color-primary: #5B3A29;
+  --ion-color-primary-rgb: 91, 58, 41;
+  --ion-color-primary-contrast: #FFFFFF;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #503323;
+  --ion-color-primary-tint: #6c4d3d;
+
+  /* ---------- Ionic color: secondary (caramel) ---------- */
+  --ion-color-secondary: #C6873F;
+  --ion-color-secondary-rgb: 198, 135, 63;
+  --ion-color-secondary-contrast: #2A1B12;
+  --ion-color-secondary-contrast-rgb: 42, 27, 18;
+  --ion-color-secondary-shade: #ae7738;
+  --ion-color-secondary-tint: #cc9353;
+
+  /* ---------- Ionic color: tertiary (tea leaf) ---------- */
+  --ion-color-tertiary: #5F7A55;
+  --ion-color-tertiary-rgb: 95, 122, 85;
+  --ion-color-tertiary-contrast: #FFFFFF;
+  --ion-color-tertiary-contrast-rgb: 255, 255, 255;
+  --ion-color-tertiary-shade: #546b4b;
+  --ion-color-tertiary-tint: #708866;
+
+  /* ---------- Ionic color: success / warning / danger ---------- */
+  --ion-color-success: #5F7A55;
+  --ion-color-success-rgb: 95, 122, 85;
+  --ion-color-success-contrast: #ffffff;
+  --ion-color-success-contrast-rgb: 255, 255, 255;
+  --ion-color-success-shade: #546b4b;
+  --ion-color-success-tint: #708866;
+
+  --ion-color-warning: #D99A3D;
+  --ion-color-warning-rgb: 217, 154, 61;
+  --ion-color-warning-contrast: #2A1B12;
+  --ion-color-warning-contrast-rgb: 42, 27, 18;
+  --ion-color-warning-shade: #bf8836;
+  --ion-color-warning-tint: #ddaa57;
+
+  --ion-color-danger: #B5453A;
+  --ion-color-danger-rgb: 181, 69, 58;
+  --ion-color-danger-contrast: #ffffff;
+  --ion-color-danger-contrast-rgb: 255, 255, 255;
+  --ion-color-danger-shade: #9f3d33;
+  --ion-color-danger-tint: #bd584e;
+
+  --ion-color-medium: #8A7362;
+  --ion-color-medium-rgb: 138, 115, 98;
+  --ion-color-medium-contrast: #ffffff;
+  --ion-color-medium-contrast-rgb: 255, 255, 255;
+  --ion-color-medium-shade: #79654e;
+  --ion-color-medium-tint: #97826f;
+
+  --ion-color-light: #FBF3E6;
+  --ion-color-light-rgb: 251, 243, 230;
+  --ion-color-light-contrast: #3C2415;
+  --ion-color-light-contrast-rgb: 60, 36, 21;
+  --ion-color-light-shade: #ddd6ca;
+  --ion-color-light-tint: #fbf4e8;
+
+  --ion-color-dark: #2A1B12;
+  --ion-color-dark-rgb: 42, 27, 18;
+  --ion-color-dark-contrast: #ffffff;
+  --ion-color-dark-contrast-rgb: 255, 255, 255;
+  --ion-color-dark-shade: #251810;
+  --ion-color-dark-tint: #3f2c2a;
+
+  /* ---------- App-wide base ---------- */
+  --ion-background-color: var(--tea-cream);
+  --ion-background-color-rgb: 251, 243, 230;
+  --ion-text-color: var(--tea-espresso);
+  --ion-text-color-rgb: 60, 36, 21;
+  --ion-font-family: var(--tea-font-body);
+  --ion-item-background: var(--tea-surface);
+  --ion-toolbar-background: var(--tea-surface);
+}
+
+/*
+ * Android edge-to-edge: Capacitor 8 injects the real system-bar sizes as
+ * --safe-area-inset-* (see SystemBars in capacitor.config.ts). Feed them to
+ * Ionic so headers/footers clear the status and navigation bars.
+ */
+html {
+  --ion-safe-area-top: var(--safe-area-inset-top, env(safe-area-inset-top, 0px));
+  --ion-safe-area-bottom: var(--safe-area-inset-bottom, env(safe-area-inset-bottom, 0px));
+  --ion-safe-area-left: var(--safe-area-inset-left, env(safe-area-inset-left, 0px));
+  --ion-safe-area-right: var(--safe-area-inset-right, env(safe-area-inset-right, 0px));
+}
+
+/* Extra semantic color used for badges/highlights (registered in app.component) */
+.ion-color-teaLeaf {
+  --ion-color-base: var(--tea-leaf);
+  --ion-color-contrast: #ffffff;
+}

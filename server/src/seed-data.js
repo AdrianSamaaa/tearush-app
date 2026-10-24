@@ -1,0 +1,106 @@
+/**
+ * Seed catalog — the same 30 products as src/app/data/products.data.ts in the
+ * app. Loaded into the database on first start and by "Reset catalog".
+ * Prices are in pesos here and stored as centavos.
+ */
+export const SEED_PRODUCTS = [
+  // ---------- Signature ----------
+  { id: 'brown-sugar-milk-tea', name: 'Brown Sugar Milk Tea', category: 'Signature', price: 129, popular: true, rating: 4.9,
+    description: 'Fresh milk swirled with house-made brown sugar syrup and chewy pearls, hand-shaken to order.' },
+  { id: 'okinawa-milk-tea', name: 'Okinawa Milk Tea', category: 'Signature', price: 119, popular: true, rating: 4.8,
+    description: 'Roasted black tea with a caramelized brown-sugar finish, topped with milk foam.' },
+  { id: 'hokkaido-milk-tea', name: 'Hokkaido Milk Tea', category: 'Signature', price: 129, rating: 4.8,
+    description: 'Rich Hokkaido-style milk tea finished with a caramel drizzle and pearls.' },
+  { id: 'ube-milk-tea', name: 'Ube Milk Tea', category: 'Signature', price: 125, popular: true, rating: 4.8,
+    description: 'Purple yam blended into creamy black milk tea for a sweet, nutty local twist.' },
+  { id: 'caramel-macchiato-milk-tea', name: 'Caramel Macchiato Milk Tea', category: 'Signature', price: 129, rating: 4.6,
+    description: 'Espresso-brewed black tea layered with caramel drizzle and milk foam.' },
+  { id: 'chocolate-brownie-milk-tea', name: 'Chocolate Brownie Milk Tea', category: 'Signature', price: 129, rating: 4.5,
+    description: 'Cocoa-rich milk tea with brownie bits blended in for a dessert-in-a-cup treat.' },
+
+  // ---------- Milk Tea Classics ----------
+  { id: 'classic-milk-tea', name: 'Classic Milk Tea', category: 'Milk Tea Classics', price: 99, rating: 4.6,
+    description: 'Our original blend of Ceylon black tea and creamer — the one that started it all.' },
+  { id: 'wintermelon-milk-tea', name: 'Wintermelon Milk Tea', category: 'Milk Tea Classics', price: 99, rating: 4.5,
+    description: 'A naturally sweet, honey-like wintermelon tea blended with creamy milk.' },
+  { id: 'taro-milk-tea', name: 'Taro Milk Tea', category: 'Milk Tea Classics', price: 109, popular: true, rating: 4.7,
+    description: 'Velvety taro root blended into black milk tea for a nutty, dessert-like sip.' },
+  { id: 'matcha-milk-tea', name: 'Matcha Milk Tea', category: 'Milk Tea Classics', price: 119, rating: 4.6,
+    description: 'Stone-ground Japanese matcha whisked with fresh milk for an earthy, smooth cup.' },
+  { id: 'thai-milk-tea', name: 'Thai Milk Tea', category: 'Milk Tea Classics', price: 109, popular: true, rating: 4.7,
+    description: 'Spiced Thai black tea with condensed milk for a bold, creamy, orange-hued classic.' },
+  { id: 'jasmine-milk-tea', name: 'Jasmine Milk Tea', category: 'Milk Tea Classics', price: 99, rating: 4.4,
+    description: 'Fragrant jasmine-scented green tea blended with fresh milk.' },
+  { id: 'earl-grey-milk-tea', name: 'Earl Grey Milk Tea', category: 'Milk Tea Classics', price: 109, rating: 4.5,
+    description: 'Bergamot-infused black tea with milk for a fragrant, classic English-style cup.' },
+  { id: 'coconut-milk-tea', name: 'Coconut Milk Tea', category: 'Milk Tea Classics', price: 109, rating: 4.5,
+    description: 'Black tea blended with real coconut milk for a light, tropical finish.' },
+  { id: 'roasted-oolong-milk-tea', name: 'Roasted Oolong Milk Tea', category: 'Milk Tea Classics', price: 109, rating: 4.6,
+    description: 'Deeply roasted oolong leaves blended with milk for a toasty, full-bodied cup.' },
+
+  // ---------- Fruit Tea ----------
+  { id: 'mango-green-tea', name: 'Mango Green Tea', category: 'Fruit Tea', price: 109, rating: 4.7,
+    description: 'Jasmine green tea shaken with real mango puree and popping boba.' },
+  { id: 'strawberry-yakult', name: 'Strawberry Yakult', category: 'Fruit Tea', price: 115, popular: true, rating: 4.8,
+    description: 'Muddled strawberries and probiotic Yakult over a light green tea base.' },
+  { id: 'honey-lemon-tea', name: 'Honey Lemon Tea', category: 'Fruit Tea', price: 95, rating: 4.4,
+    description: 'A refreshing, tangy black tea with honey and fresh-squeezed lemon.' },
+  { id: 'lychee-green-tea', name: 'Lychee Green Tea', category: 'Fruit Tea', price: 109, rating: 4.6,
+    description: 'Floral lychee syrup shaken with jasmine green tea and lychee jelly.' },
+  { id: 'peach-oolong-tea', name: 'Peach Oolong Tea', category: 'Fruit Tea', price: 109, popular: true, rating: 4.7,
+    description: 'Juicy peach puree layered over roasted oolong tea, served over ice.' },
+  { id: 'kiwi-fruit-tea', name: 'Kiwi Fruit Tea', category: 'Fruit Tea', price: 109, rating: 4.5,
+    description: 'Real kiwi chunks blended with green tea for a tart, refreshing cooler.' },
+  { id: 'passion-fruit-tea', name: 'Passion Fruit Tea', category: 'Fruit Tea', price: 109, rating: 4.6,
+    description: 'Tangy passion fruit seeds and juice shaken with black tea and lemon.' },
+  { id: 'grape-fruit-tea', name: 'Grape Fruit Tea', category: 'Fruit Tea', price: 105, rating: 4.4,
+    description: 'Sweet grape juice blended with green tea and topped with grape popping boba.' },
+  { id: 'blueberry-yakult', name: 'Blueberry Yakult', category: 'Fruit Tea', price: 115, rating: 4.6,
+    description: 'Blueberry syrup and probiotic Yakult shaken with green tea and blueberry popping boba.' },
+
+  // ---------- Cheese Foam ----------
+  { id: 'cheese-foam-oolong', name: 'Cheese Foam Oolong', category: 'Cheese Foam', price: 135, rating: 4.7,
+    description: 'Roasted oolong crowned with a salted-cheese milk cap — sip through the foam.' },
+  { id: 'cheese-foam-jasmine', name: 'Cheese Foam Jasmine Green', category: 'Cheese Foam', price: 135, rating: 4.6,
+    description: 'Fragrant jasmine green tea topped with our signature whipped cheese foam.' },
+  { id: 'cheese-foam-black-tea', name: 'Cheese Foam Black Tea', category: 'Cheese Foam', price: 135, rating: 4.5,
+    description: 'Bold Ceylon black tea topped with a thick layer of whipped cheese foam.' },
+  { id: 'cheese-foam-thai-tea', name: 'Cheese Foam Thai Tea', category: 'Cheese Foam', price: 139, popular: true, rating: 4.8,
+    description: 'Spiced Thai milk tea finished with our salted cheese foam cap.' },
+  { id: 'cheese-foam-strawberry', name: 'Cheese Foam Strawberry', category: 'Cheese Foam', price: 139, rating: 4.6,
+    description: 'Fresh strawberry tea topped with whipped cheese foam for a sweet-savory balance.' },
+  { id: 'cheese-foam-matcha', name: 'Cheese Foam Matcha', category: 'Cheese Foam', price: 139, rating: 4.7,
+    description: 'Earthy matcha green tea capped with a thick layer of salted cheese foam.' },
+];
+
+export const SEED_PROMOS = [
+  {
+    code: 'TEARUSH20',
+    title: '20% off your first order',
+    description: 'New to TeaRush? Get 20% off on your very first purchase, any size.',
+    kind: 'percent',
+    percent: 20,
+    firstOrderOnly: true,
+    validUntil: '2026-12-31',
+    accent: 'brown',
+  },
+  {
+    code: 'FREESHIP',
+    title: 'Free delivery, minimum ₱250',
+    description: 'Enjoy free delivery on orders worth ₱250 or more, all day, every day.',
+    kind: 'free_delivery',
+    minSubtotal: 250,
+    validUntil: '2026-12-31',
+    accent: 'leaf',
+  },
+  {
+    code: 'BOGO-BROWNSUGAR',
+    title: 'Buy 1, take 1 Brown Sugar Milk Tea',
+    description: 'Every Friday, buy one Brown Sugar Milk Tea and get a second one free.',
+    kind: 'bogo',
+    productId: 'brown-sugar-milk-tea',
+    weekday: 5,
+    validUntil: '2026-12-31',
+    accent: 'caramel',
+  },
+];

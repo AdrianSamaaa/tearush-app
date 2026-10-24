@@ -1,0 +1,82 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Contact Us</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="page-pad">
+
+    <div class="quick">
+      <a class="quick__btn" [href]="telLink">
+        <ion-icon name="call-outline"></ion-icon>
+        <span>Call us</span>
+      </a>
+      <a class="quick__btn" [href]="mailLink">
+        <ion-icon name="mail-outline"></ion-icon>
+        <span>Email us</span>
+      </a>
+    </div>
+
+    <div class="info tea-card">
+      <div class="info__row">
+        <ion-icon name="call-outline"></ion-icon>
+        <div><span>Phone / Viber</span><p>{{ contact.phone }}</p></div>
+      </div>
+      <div class="info__row">
+        <ion-icon name="mail-outline"></ion-icon>
+        <div><span>Email</span><p>{{ contact.email }}</p></div>
+      </div>
+      <div class="info__row">
+        <ion-icon name="location-outline"></ion-icon>
+        <div><span>Visit us</span><p>{{ contact.address }}</p></div>
+      </div>
+      <div class="info__row">
+        <ion-icon name="time-outline"></ion-icon>
+        <div><span>Store hours</span><p>{{ contact.hours }}</p></div>
+      </div>
+    </div>
+
+    <p class="section-title">Send us a message</p>
+
+    <div class="sent tea-card" *ngIf="sent(); else formTpl">
+      <ion-icon name="checkmark-circle"></ion-icon>
+      <h3>Message sent!</h3>
+      <p>Thanks for reaching out. Our team will reply to {{ form.email }} as soon as possible.</p>
+      <ion-button fill="outline" shape="round" class="tea-btn--outline" (click)="writeAnother()">Send another</ion-button>
+    </div>
+
+    <ng-template #formTpl>
+      <p class="form-error" *ngIf="error()">{{ error() }}</p>
+      <ion-item class="form-item" lines="none">
+        <ion-input label="Your name" labelPlacement="stacked" [(ngModel)]="form.name" autocomplete="name"></ion-input>
+      </ion-item>
+      <ion-item class="form-item" lines="none">
+        <ion-input label="Email" labelPlacement="stacked" type="email" inputmode="email" [(ngModel)]="form.email" autocomplete="email"></ion-input>
+      </ion-item>
+      <ion-item class="form-item" lines="none">
+        <ion-input label="Mobile number (optional)" labelPlacement="stacked" type="tel" inputmode="tel" [(ngModel)]="form.phone"></ion-input>
+      </ion-item>
+      <ion-item class="form-item" lines="none">
+        <ion-input label="Subject (optional)" labelPlacement="stacked" [(ngModel)]="form.subject" placeholder="e.g. Order TR-10001, franchise, feedback"></ion-input>
+      </ion-item>
+      <ion-item class="form-item" lines="none">
+        <ion-textarea label="Message" labelPlacement="stacked" [(ngModel)]="form.message" rows="4" [maxlength]="2000"
+          placeholder="How can we help?"></ion-textarea>
+      </ion-item>
+      <ion-button expand="block" shape="round" class="tea-btn" (click)="send()" [disabled]="sending()">
+        <ion-spinner *ngIf="sending()" name="crescent"></ion-spinner>
+        <ng-container *ngIf="!sending()"><ion-icon slot="start" name="send-outline"></ion-icon> Send message</ng-container>
+      </ion-button>
+    </ng-template>
+
+    <a class="faq-link" routerLink="/help">
+      <ion-icon name="help-circle-outline"></ion-icon>
+      <span>Check our FAQs for quick answers</span>
+      <ion-icon name="chevron-forward-outline"></ion-icon>
+    </a>
+  </div>
+</ion-content>

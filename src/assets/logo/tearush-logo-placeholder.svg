@@ -1,0 +1,15 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="TeaRush placeholder logo">
+  <!-- Lid -->
+  <rect x="14" y="13" width="36" height="6" rx="3" fill="#C6873F"/>
+  <!-- Straw -->
+  <rect x="38.5" y="2" width="5" height="19" rx="2.2" fill="#C6873F" transform="rotate(18 41 11)"/>
+  <!-- Cup body -->
+  <path d="M16 21 H48 L44.2 54.5 A5 5 0 0 1 39.3 59 H24.7 A5 5 0 0 1 19.8 54.5 Z"
+        fill="none" stroke="#C6873F" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round"/>
+  <!-- Fill line -->
+  <path d="M20.5 32.5 H43.5" stroke="#C6873F" stroke-width="2" stroke-linecap="round" stroke-dasharray="1 4.5"/>
+  <!-- Pearls -->
+  <circle cx="27" cy="45" r="2.6" fill="#3C2415"/>
+  <circle cx="35.5" cy="48" r="2.6" fill="#3C2415"/>
+  <circle cx="31" cy="41.5" r="2.1" fill="#3C2415"/>
+</svg>

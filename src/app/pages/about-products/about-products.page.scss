@@ -1,0 +1,159 @@
+.section-title {
+  margin: 20px 0 10px 2px;
+}
+
+.intro {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  padding: 16px;
+
+  > ion-icon {
+    font-size: 2.2rem;
+    color: var(--tea-caramel);
+    flex-shrink: 0;
+  }
+
+  h1 {
+    margin: 0 0 4px;
+    font-family: var(--tea-font-display);
+    font-size: 1.15rem;
+    color: var(--tea-espresso);
+  }
+
+  p {
+    margin: 0;
+    font-size: 0.8rem;
+    line-height: 1.45;
+    color: var(--ion-color-medium-shade);
+  }
+}
+
+.line {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  margin-bottom: 10px;
+  text-decoration: none;
+
+  &__emoji {
+    font-size: 1.8rem;
+    flex-shrink: 0;
+  }
+
+  &__body {
+    flex: 1;
+    min-width: 0;
+
+    h3 {
+      margin: 0 0 2px;
+      font-family: var(--tea-font-display);
+      font-size: 1rem;
+      color: var(--tea-espresso);
+    }
+
+    p {
+      margin: 0 0 4px;
+      font-size: 0.78rem;
+      line-height: 1.4;
+      color: var(--ion-color-medium-shade);
+    }
+  }
+
+  &__meta {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--tea-caramel-dark);
+  }
+
+  > ion-icon {
+    color: var(--ion-color-medium);
+    flex-shrink: 0;
+  }
+}
+
+.ingredients {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.ingredient {
+  padding: 14px;
+  border-radius: 16px;
+  background: var(--tea-cream-deep);
+
+  ion-icon {
+    font-size: 1.3rem;
+    color: var(--tea-leaf-dark);
+  }
+
+  h3 {
+    margin: 6px 0 2px;
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: var(--tea-espresso);
+  }
+
+  p {
+    margin: 0;
+    font-size: 0.74rem;
+    line-height: 1.4;
+    color: var(--ion-color-medium-shade);
+  }
+}
+
+.table {
+  padding: 4px 16px;
+
+  &__row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    font-size: 0.85rem;
+    color: var(--tea-espresso);
+    border-bottom: 1px solid var(--tea-line);
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    span:last-child {
+      font-weight: 700;
+      color: var(--tea-caramel-dark);
+    }
+  }
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 10px;
+
+  &__label {
+    width: 48px;
+    font-size: 0.78rem;
+    font-weight: 800;
+    color: var(--tea-espresso);
+  }
+}
+
+.chip {
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: var(--tea-surface);
+  border: 1px solid var(--tea-line);
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--ion-color-medium-shade);
+}
+
+.cta {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 22px;
+}

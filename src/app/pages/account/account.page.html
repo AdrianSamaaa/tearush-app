@@ -1,0 +1,125 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>My Account</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="page-pad">
+
+    <!-- Signed in -->
+    <ng-container *ngIf="auth.user() as user; else guest">
+      <div class="profile-card">
+        <img *ngIf="user.avatar; else noAvatar" class="profile-card__photo" [src]="user.avatar" alt="Profile photo" />
+        <ng-template #noAvatar><ion-icon name="person-circle-outline"></ion-icon></ng-template>
+        <div>
+          <h1>{{ user.name }}</h1>
+          <p>{{ user.email }}</p>
+          <p *ngIf="user.phone">{{ user.phone }}</p>
+        </div>
+        <span class="role-pill" *ngIf="user.role === 'admin'">Admin</span>
+      </div>
+
+      <a class="notice notice--danger verify-banner" *ngIf="user.emailVerified === false" routerLink="/verify-email">
+        <ion-icon name="mail-outline"></ion-icon>
+        <span>Verify your email to start ordering.</span>
+        <ion-icon name="chevron-forward-outline"></ion-icon>
+      </a>
+
+      <p class="section-title">Preferences</p>
+      <div class="settings-list tea-card">
+        <div class="settings-row">
+          <ion-icon name="notifications-outline"></ion-icon>
+          <span>Order notifications</span>
+          <ion-toggle [checked]="notifications.enabled()" (ionChange)="toggleNotifications($event)" color="tertiary"
+            aria-label="Order notifications"></ion-toggle>
+        </div>
+      </div>
+
+      <p class="section-title">Account</p>
+      <div class="settings-list tea-card">
+        <a class="settings-row" *ngFor="let item of settingsItems" [routerLink]="item.url">
+          <ion-icon [name]="item.icon"></ion-icon>
+          <span>{{ item.label }}</span>
+          <ion-icon name="chevron-forward-outline" class="chevron"></ion-icon>
+        </a>
+        <button class="settings-row" (click)="showPaymentMethods()">
+          <ion-icon name="card-outline"></ion-icon>
+          <span>Payment Methods</span>
+          <ion-icon name="chevron-forward-outline" class="chevron"></ion-icon>
+        </button>
+      </div>
+
+      <ng-container *ngIf="user.role === 'admin'">
+        <p class="section-title">Shop admin</p>
+        <div class="settings-list tea-card">
+          <a class="settings-row" routerLink="/manage-orders">
+            <ion-icon name="clipboard-outline"></ion-icon>
+            <span>Manage Orders</span>
+            <ion-icon name="chevron-forward-outline" class="chevron"></ion-icon>
+          </a>
+          <a class="settings-row" routerLink="/manage-products">
+            <ion-icon name="cube-outline"></ion-icon>
+            <span>Manage Products</span>
+            <ion-icon name="chevron-forward-outline" class="chevron"></ion-icon>
+          </a>
+          <a class="settings-row" routerLink="/shop-settings">
+            <ion-icon name="card-outline"></ion-icon>
+            <span>Shop Settings (payments & email)</span>
+            <ion-icon name="chevron-forward-outline" class="chevron"></ion-icon>
+          </a>
+        </div>
+      </ng-container>
+    </ng-container>
+
+    <!-- Guest -->
+    <ng-template #guest>
+      <div class="profile-card profile-card--guest">
+        <ion-icon name="person-circle-outline"></ion-icon>
+        <div>
+          <h1>Guest User</h1>
+          <p>Log in to order, pay online and track deliveries.</p>
+        </div>
+      </div>
+      <div class="guest-actions">
+        <ion-button expand="block" shape="round" class="tea-btn" routerLink="/login">Log in</ion-button>
+        <ion-button expand="block" shape="round" fill="outline" class="tea-btn--outline" routerLink="/register">Create an account</ion-button>
+      </div>
+      <div class="settings-list tea-card">
+        <a class="settings-row" routerLink="/help">
+          <ion-icon name="help-circle-outline"></ion-icon>
+          <span>Help & Support</span>
+          <ion-icon name="chevron-forward-outline" class="chevron"></ion-icon>
+        </a>
+      </div>
+    </ng-template>
+
+    <p class="section-title">App</p>
+    <div class="settings-list tea-card">
+      <button class="settings-row" (click)="editServer()">
+        <ion-icon name="server-outline"></ion-icon>
+        <span>
+          Server connection
+          <small>{{ serverLabel }}</small>
+        </span>
+        <ion-icon name="chevron-forward-outline" class="chevron"></ion-icon>
+      </button>
+    </div>
+
+    <ng-container *ngIf="auth.isLoggedIn()">
+      <button class="logout-row" (click)="logout()">
+        <ion-icon name="log-out-outline"></ion-icon>
+        <span>Log out</span>
+      </button>
+      <button class="delete-link" (click)="deleteAccount()">
+        <ion-icon name="trash-outline"></ion-icon> Delete my account
+      </button>
+    </ng-container>
+
+    <p class="app-version">TeaRush v1.0.0</p>
+
+  </div>
+</ion-content>

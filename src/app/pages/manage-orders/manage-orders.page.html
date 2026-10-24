@@ -1,0 +1,111 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Manage Orders</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="load()" aria-label="Refresh">
+        <ion-icon slot="icon-only" name="refresh-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="page-pad">
+    <!-- Today at a glance -->
+    <div class="stats" *ngIf="stats() as s">
+      <div class="stat">
+        <span>Today's orders</span>
+        <strong>{{ s.today.orders }}</strong>
+      </div>
+      <div class="stat">
+        <span>Today's sales</span>
+        <strong>{{ s.today.revenue | peso }}</strong>
+      </div>
+      <div class="stat stat--accent">
+        <span>Active now</span>
+        <strong>{{ s.active }}</strong>
+      </div>
+    </div>
+
+    <ion-segment [value]="filter" (ionChange)="changeFilter($event.detail.value)" scrollable="true" class="tea-segment tea-segment--scroll">
+      <ion-segment-button *ngFor="let f of filters" [value]="f.value">
+        <ion-label>{{ f.label }}</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+
+    <div class="notice notice--danger" *ngIf="error()">
+      <ion-icon name="alert-circle-outline"></ion-icon>
+      <span>{{ error() }}</span>
+      <button (click)="load()">Retry</button>
+    </div>
+
+    <div class="center-spinner" *ngIf="loading() && !orders().length">
+      <ion-spinner name="crescent"></ion-spinner>
+    </div>
+
+    <div class="ticket tea-card" *ngFor="let order of orders()">
+      <div class="ticket__top">
+        <div>
+          <p class="ticket__id">{{ order.orderNumber }}</p>
+          <p class="ticket__time">{{ order.createdAt | date: 'MMM d · h:mm a' }}</p>
+        </div>
+        <span class="status-badge" [attr.data-status]="order.status">
+          <ion-icon [name]="statusIcons[order.status]"></ion-icon>
+          {{ order.statusLabel }}
+        </span>
+      </div>
+
+      <pre class="ticket__items">{{ summary(order) }}</pre>
+
+      <div class="ticket__meta">
+        <span><ion-icon name="person-outline"></ion-icon> {{ order.contactName }}</span>
+        <span *ngIf="order.contactPhone"><ion-icon name="call-outline"></ion-icon> {{ order.contactPhone }}</span>
+        <span *ngIf="order.fulfillment === 'delivery'"><ion-icon name="location-outline"></ion-icon> {{ order.address }}</span>
+        <span *ngIf="order.fulfillment === 'pickup'"><ion-icon name="storefront-outline"></ion-icon> Pickup at counter</span>
+        <span *ngIf="order.notes" class="ticket__notes"><ion-icon name="chatbubble-outline"></ion-icon> {{ order.notes }}</span>
+      </div>
+
+      <div class="ticket__pay">
+        <span class="price-tag">{{ order.total | peso }}</span>
+        <span class="pay-pill" [class.pay-pill--paid]="order.paymentStatus === 'paid'">
+          <ion-icon name="card-outline"></ion-icon>
+          {{ order.paymentMethodLabel }} · {{ order.paymentStatus === 'paid' ? 'Paid' : order.paymentStatus === 'refunded' ? 'Refunded' : 'Unpaid' }}
+        </span>
+      </div>
+
+      <div class="ticket__actions" *ngIf="order.nextStatuses?.length">
+        <ion-button
+          *ngFor="let next of forwardActions(order)"
+          size="small"
+          shape="round"
+          class="tea-btn"
+          (click)="advance(order, next.value)"
+          [disabled]="busyId() === order.id"
+        >{{ actionLabel(next.value) }}</ion-button>
+        <ion-button
+          *ngIf="canCancel(order)"
+          size="small"
+          shape="round"
+          fill="clear"
+          color="danger"
+          (click)="confirmCancel(order)"
+          [disabled]="busyId() === order.id"
+        >Cancel</ion-button>
+        <ion-spinner *ngIf="busyId() === order.id" name="dots"></ion-spinner>
+      </div>
+    </div>
+
+    <div class="empty-state" *ngIf="!loading() && !error() && !orders().length">
+      <ion-icon name="clipboard-outline"></ion-icon>
+      <h3>No orders here</h3>
+      <p>New orders appear automatically — this list refreshes every 20 seconds.</p>
+    </div>
+  </div>
+</ion-content>

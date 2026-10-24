@@ -1,0 +1,143 @@
+<ion-app>
+  <ion-split-pane contentId="main-content" when="md">
+
+    <!-- ============== SIDE MENU ============== -->
+    <ion-menu contentId="main-content" type="overlay" class="tea-menu">
+      <ion-content class="tea-menu-content" [scrollY]="true">
+
+        <!-- Header: brand + signed-in user (photo, name, phone) -->
+        <div class="menu-header">
+          <div class="menu-brand">
+            <img src="assets/logo/tearush-logo-placeholder.svg" alt="TeaRush logo" />
+            <span>TeaRush</span>
+          </div>
+
+          <ion-menu-toggle auto-hide="false">
+            <a class="menu-user" [routerLink]="auth.isLoggedIn() ? '/account/profile' : '/login'">
+              <div class="menu-user__avatar">
+                <img *ngIf="auth.user()?.avatar as avatar; else avatarPlaceholder" [src]="avatar" alt="Profile photo" />
+                <ng-template #avatarPlaceholder><ion-icon name="person"></ion-icon></ng-template>
+              </div>
+              <div class="menu-user__text" *ngIf="auth.user() as user; else guestText">
+                <h2>{{ user.name }}</h2>
+                <p *ngIf="user.phone"><ion-icon name="call-outline"></ion-icon> {{ user.phone }}</p>
+                <p class="menu-user__email">{{ user.email }}</p>
+              </div>
+              <ng-template #guestText>
+                <div class="menu-user__text">
+                  <h2>Guest User</h2>
+                  <p>Tap to log in or sign up</p>
+                </div>
+              </ng-template>
+            </a>
+          </ion-menu-toggle>
+        </div>
+
+        <div class="offline-pill" *ngIf="!native.online()">
+          <ion-icon name="cloud-offline-outline"></ion-icon> You're offline
+        </div>
+
+        <!-- Shop -->
+        <ion-list lines="none" class="menu-list">
+          <ion-menu-toggle auto-hide="false" *ngFor="let page of mainPages">
+            <ion-item
+              [routerLink]="page.url"
+              routerLinkActive="menu-item--active"
+              #rla="routerLinkActive"
+              [routerLinkActiveOptions]="{ exact: false }"
+              detail="false"
+              class="menu-item"
+            >
+              <ion-icon [name]="rla.isActive ? page.iconActive : page.icon" slot="start"></ion-icon>
+              <ion-label>{{ page.title }}</ion-label>
+              <ion-badge
+                *ngIf="page.badge === 'cart' && cart.itemCount() > 0"
+                slot="end"
+                color="secondary"
+              >{{ cart.itemCount() }}</ion-badge>
+              <ion-badge
+                *ngIf="page.badge === 'orders' && activeOrderCount().length > 0"
+                slot="end"
+                color="tertiary"
+              >{{ activeOrderCount().length }}</ion-badge>
+              <ion-badge
+                *ngIf="page.badge === 'new'"
+                slot="end"
+                color="tertiary"
+                class="badge-new"
+              >New</ion-badge>
+            </ion-item>
+          </ion-menu-toggle>
+        </ion-list>
+
+        <!-- Shop staff tools -->
+        <ng-container *ngIf="auth.isAdmin()">
+          <div class="menu-divider"></div>
+          <p class="menu-section-label">Shop admin</p>
+          <ion-list lines="none" class="menu-list menu-list--secondary">
+            <ion-menu-toggle auto-hide="false" *ngFor="let page of adminPages">
+              <ion-item
+                [routerLink]="page.url"
+                routerLinkActive="menu-item--active"
+                #rla="routerLinkActive"
+                detail="false"
+                class="menu-item"
+              >
+                <ion-icon [name]="rla.isActive ? page.iconActive : page.icon" slot="start"></ion-icon>
+                <ion-label>{{ page.title }}</ion-label>
+              </ion-item>
+            </ion-menu-toggle>
+          </ion-list>
+        </ng-container>
+
+        <div class="menu-divider"></div>
+        <p class="menu-section-label">About TeaRush</p>
+
+        <!-- Company + app information -->
+        <ion-list lines="none" class="menu-list menu-list--secondary">
+          <ion-menu-toggle auto-hide="false" *ngFor="let page of infoPages">
+            <ion-item
+              [routerLink]="page.url"
+              routerLinkActive="menu-item--active"
+              #rla="routerLinkActive"
+              detail="false"
+              class="menu-item menu-item--muted"
+            >
+              <ion-icon [name]="rla.isActive ? page.iconActive : page.icon" slot="start"></ion-icon>
+              <ion-label>{{ page.title }}</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+        </ion-list>
+
+        <!-- Footer: login / logout -->
+        <div class="menu-footer">
+          <ion-item
+            *ngIf="auth.isLoggedIn(); else loginItem"
+            button
+            detail="false"
+            lines="none"
+            (click)="logout()"
+            class="menu-footer__logout"
+          >
+            <ion-icon name="log-out-outline" slot="start"></ion-icon>
+            <ion-label>Log out</ion-label>
+          </ion-item>
+          <ng-template #loginItem>
+            <ion-menu-toggle auto-hide="false">
+              <ion-item button detail="false" lines="none" routerLink="/login" class="menu-footer__login">
+                <ion-icon name="log-in-outline" slot="start"></ion-icon>
+                <ion-label>Log in or sign up</ion-label>
+              </ion-item>
+            </ion-menu-toggle>
+          </ng-template>
+          <p class="menu-footer__version">TeaRush v1.0.0</p>
+        </div>
+
+      </ion-content>
+    </ion-menu>
+
+    <!-- ============== MAIN CONTENT ============== -->
+    <ion-router-outlet id="main-content"></ion-router-outlet>
+
+  </ion-split-pane>
+</ion-app>

@@ -1,0 +1,8 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Customize icon">
+  <line x1="16" y1="12" x2="16" y2="52" stroke="#C6873F" stroke-width="3" stroke-linecap="round"/>
+  <line x1="32" y1="12" x2="32" y2="52" stroke="#C6873F" stroke-width="3" stroke-linecap="round"/>
+  <line x1="48" y1="12" x2="48" y2="52" stroke="#C6873F" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="16" cy="38" r="5.5" fill="#3C2415"/>
+  <circle cx="32" cy="22" r="5.5" fill="#3C2415"/>
+  <circle cx="48" cy="30" r="5.5" fill="#3C2415"/>
+</svg>

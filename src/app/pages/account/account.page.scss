@@ -1,0 +1,166 @@
+.page-pad {
+  padding: 12px 18px 28px;
+}
+
+.profile-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: linear-gradient(135deg, var(--tea-brown), var(--tea-espresso));
+  border-radius: 18px;
+  padding: 18px;
+  margin-bottom: 22px;
+  color: #fff;
+
+  ion-icon {
+    font-size: 3rem;
+    color: var(--tea-caramel);
+    flex-shrink: 0;
+  }
+
+  h1 {
+    margin: 0 0 2px;
+    font-family: var(--tea-font-display);
+    font-size: 1.15rem;
+  }
+
+  p {
+    margin: 0;
+    font-size: 0.8rem;
+    opacity: 0.8;
+  }
+
+  > div {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+.profile-card__photo {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--tea-caramel);
+  flex-shrink: 0;
+}
+
+.verify-banner {
+  margin-top: -10px;
+  margin-bottom: 20px;
+  text-decoration: none;
+}
+
+.role-pill {
+  align-self: flex-start;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--tea-caramel);
+  color: var(--tea-pearl);
+  font-size: 0.66rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.guest-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 22px;
+}
+
+.delete-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  margin: -6px 0 16px;
+  background: none;
+  border: none;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--ion-color-medium);
+}
+
+.section-title {
+  margin: 0 0 10px 2px;
+}
+
+.settings-list {
+  padding: 4px 6px;
+  margin-bottom: 20px;
+}
+
+.settings-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 12px 8px;
+  text-align: left;
+  border-bottom: 1px solid var(--tea-line);
+
+  &:last-child { border-bottom: none; }
+
+  ion-icon:first-child {
+    font-size: 1.15rem;
+    color: var(--tea-brown);
+  }
+
+  text-decoration: none;
+
+  span {
+    flex: 1;
+    min-width: 0;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--tea-espresso);
+
+    small {
+      display: block;
+      font-size: 0.7rem;
+      font-weight: 500;
+      color: var(--ion-color-medium);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  .chevron {
+    font-size: 0.85rem;
+    color: var(--ion-color-medium);
+  }
+}
+
+.logout-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  background: var(--tea-surface);
+  border: 1px solid var(--tea-line);
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin-bottom: 18px;
+
+  ion-icon {
+    font-size: 1.1rem;
+    color: var(--ion-color-danger);
+  }
+
+  span {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--ion-color-danger);
+  }
+}
+
+.app-version {
+  text-align: center;
+  font-size: 0.7rem;
+  color: var(--ion-color-medium);
+}

@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">TeaRush</string>
+    <string name="title_activity_main">TeaRush</string>
+    <string name="package_name">com.tearush.app</string>
+    <string name="custom_url_scheme">com.tearush.app</string>
+</resources>

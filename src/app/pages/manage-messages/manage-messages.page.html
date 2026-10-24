@@ -1,0 +1,50 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Customer Messages</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="page-pad">
+    <div class="notice notice--danger" *ngIf="error()">
+      <ion-icon name="alert-circle-outline"></ion-icon>
+      <span>{{ error() }}</span>
+      <button (click)="load()">Retry</button>
+    </div>
+
+    <div class="center-spinner" *ngIf="!loaded()"><ion-spinner name="crescent"></ion-spinner></div>
+
+    <div class="msg tea-card" *ngFor="let msg of messages()" [class.msg--unread]="!msg.isRead" (click)="markRead(msg)">
+      <div class="msg__top">
+        <ion-icon [name]="msg.isRead ? 'mail-open-outline' : 'mail-outline'"></ion-icon>
+        <div class="msg__who">
+          <strong>{{ msg.name }}</strong>
+          <span>{{ msg.createdAt | date: 'MMM d, h:mm a' }}</span>
+        </div>
+        <span class="msg__new" *ngIf="!msg.isRead">New</span>
+      </div>
+      <p class="msg__subject" *ngIf="msg.subject">{{ msg.subject }}</p>
+      <p class="msg__text">{{ msg.message }}</p>
+      <div class="msg__actions">
+        <a [href]="mailto(msg)" class="msg__link" (click)="$event.stopPropagation()">Reply to {{ msg.email }}</a>
+        <span class="msg__phone" *ngIf="msg.phone"><ion-icon name="call-outline"></ion-icon> {{ msg.phone }}</span>
+        <ion-button fill="clear" color="danger" size="small" (click)="$event.stopPropagation(); confirmDelete(msg)" aria-label="Delete">
+          <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+        </ion-button>
+      </div>
+    </div>
+
+    <div class="empty-state" *ngIf="loaded() && !error() && !messages().length">
+      <ion-icon name="chatbubbles-outline"></ion-icon>
+      <h3>No messages yet</h3>
+      <p>Messages sent from the Contact Us page will appear here.</p>
+    </div>
+  </div>
+</ion-content>

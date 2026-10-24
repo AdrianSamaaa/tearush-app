@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Notification small icon: white silhouette of the TeaRush cup (Android tints it). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="64"
+    android:viewportHeight="64">
+    <!-- Lid -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M17,13 H47 A3,3 0 0 1 47,19 H17 A3,3 0 0 1 17,13 Z" />
+    <!-- Straw -->
+    <group
+        android:pivotX="41"
+        android:pivotY="11"
+        android:rotation="18">
+        <path
+            android:fillColor="#FFFFFFFF"
+            android:pathData="M40.7,2 H41.3 A2.2,2.2 0 0 1 43.5,4.2 V18.8 A2.2,2.2 0 0 1 41.3,21 H40.7 A2.2,2.2 0 0 1 38.5,18.8 V4.2 A2.2,2.2 0 0 1 40.7,2 Z" />
+    </group>
+    <!-- Cup outline -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#FFFFFFFF"
+        android:strokeWidth="4"
+        android:strokeLineJoin="round"
+        android:pathData="M16,21 H48 L44.2,54.5 A5,5 0 0 1 39.3,59 H24.7 A5,5 0 0 1 19.8,54.5 Z" />
+    <!-- Pearls -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M24.4,45 a2.6,2.6 0 1,0 5.2,0 a2.6,2.6 0 1,0 -5.2,0 M32.9,48 a2.6,2.6 0 1,0 5.2,0 a2.6,2.6 0 1,0 -5.2,0 M28.9,41.5 a2.1,2.1 0 1,0 4.2,0 a2.1,2.1 0 1,0 -4.2,0" />
+</vector>

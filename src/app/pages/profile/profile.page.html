@@ -1,0 +1,75 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/account" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>Edit Profile</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="page-pad">
+    <div class="photo">
+      <label class="photo__avatar" [class.photo__avatar--busy]="photoBusy()">
+        <img *ngIf="auth.user()?.avatar as avatar; else noPhoto" [src]="avatar" alt="Profile photo" />
+        <ng-template #noPhoto><ion-icon name="person"></ion-icon></ng-template>
+        <span class="photo__badge"><ion-icon name="camera-outline"></ion-icon></span>
+        <input type="file" accept="image/*" (change)="onPhotoPicked($event)" [disabled]="photoBusy()" />
+      </label>
+      <div class="photo__actions">
+        <ion-spinner *ngIf="photoBusy()" name="dots"></ion-spinner>
+        <span *ngIf="!photoBusy()">Tap the photo to change it</span>
+        <button *ngIf="auth.user()?.avatar && !photoBusy()" (click)="removePhoto()">
+          <ion-icon name="trash-outline"></ion-icon> Remove photo
+        </button>
+      </div>
+      <p class="form-error" *ngIf="photoError()">{{ photoError() }}</p>
+    </div>
+
+    <p class="section-title">Your details</p>
+    <p class="form-error" *ngIf="profileError()">{{ profileError() }}</p>
+
+    <ion-item class="form-item" lines="none">
+      <ion-input label="Full name" labelPlacement="stacked" [(ngModel)]="profile.name" autocomplete="name"></ion-input>
+    </ion-item>
+    <ion-item class="form-item" lines="none">
+      <ion-input label="Email" labelPlacement="stacked" type="email" inputmode="email" [(ngModel)]="profile.email" autocomplete="email"></ion-input>
+    </ion-item>
+    <p class="form-hint">
+      {{ auth.user()?.emailVerified === false ? 'Not verified yet — ' : 'Verified ✓ · ' }}changing your email sends a new verification code.
+      <a *ngIf="auth.user()?.emailVerified === false" routerLink="/verify-email">Verify now</a>
+    </p>
+    <ion-item class="form-item" lines="none">
+      <ion-input label="Mobile number (optional)" labelPlacement="stacked" type="tel" inputmode="tel" [(ngModel)]="profile.phone"
+        placeholder="0917 123 4567" autocomplete="tel"></ion-input>
+    </ion-item>
+
+    <ion-button expand="block" shape="round" class="tea-btn" (click)="saveProfile()" [disabled]="saving()">
+      <ion-spinner *ngIf="saving()" name="crescent"></ion-spinner>
+      <span *ngIf="!saving()">Save changes</span>
+    </ion-button>
+
+    <p class="section-title" style="margin-top: 28px">Change password</p>
+    <p class="form-error" *ngIf="passwordError()">{{ passwordError() }}</p>
+
+    <ion-item class="form-item" lines="none">
+      <ion-input label="Current password" labelPlacement="stacked" type="password" [(ngModel)]="passwords.current" autocomplete="current-password">
+        <ion-input-password-toggle slot="end"></ion-input-password-toggle>
+      </ion-input>
+    </ion-item>
+    <ion-item class="form-item" lines="none">
+      <ion-input label="New password" labelPlacement="stacked" type="password" [(ngModel)]="passwords.next"
+        placeholder="At least 8 characters" autocomplete="new-password">
+        <ion-input-password-toggle slot="end"></ion-input-password-toggle>
+      </ion-input>
+    </ion-item>
+    <ion-item class="form-item" lines="none">
+      <ion-input label="Confirm new password" labelPlacement="stacked" type="password" [(ngModel)]="passwords.confirm" autocomplete="new-password"></ion-input>
+    </ion-item>
+
+    <ion-button expand="block" shape="round" fill="outline" class="tea-btn--outline" (click)="changePassword()" [disabled]="changingPassword()">
+      <ion-spinner *ngIf="changingPassword()" name="crescent"></ion-spinner>
+      <span *ngIf="!changingPassword()">Update password</span>
+    </ion-button>
+  </div>
+</ion-content>

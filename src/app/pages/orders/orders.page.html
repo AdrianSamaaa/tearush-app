@@ -1,0 +1,57 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Order History</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="page-pad">
+    <div class="notice notice--danger" *ngIf="orderService.error()">
+      <ion-icon name="alert-circle-outline"></ion-icon>
+      <span>{{ orderService.error() }}</span>
+      <button (click)="orderService.load()">Retry</button>
+    </div>
+
+    <div class="center-spinner" *ngIf="orderService.loading() && !orderService.loaded()">
+      <ion-spinner name="crescent"></ion-spinner>
+    </div>
+
+    <a class="order-card tea-card" *ngFor="let order of orderService.orders()" [routerLink]="['/orders', order.id]">
+      <div class="order-card__top">
+        <div>
+          <p class="order-card__id">{{ order.orderNumber }}</p>
+          <p class="order-card__date">{{ order.createdAt | date: 'MMM d, y · h:mm a' }} · {{ order.fulfillment === 'pickup' ? 'Pickup' : 'Delivery' }}</p>
+        </div>
+        <span class="status-badge" [attr.data-status]="order.status">
+          <ion-icon [name]="statusIcons[order.status]"></ion-icon>
+          {{ order.statusLabel }}
+        </span>
+      </div>
+      <p class="order-card__items">{{ summary(order) }}</p>
+      <div class="order-card__bottom">
+        <div>
+          <span class="price-tag">{{ order.total | peso }}</span>
+          <span class="order-card__pay">{{ order.paymentMethodLabel }}{{ order.paymentStatus === 'paid' ? ' · Paid' : '' }}</span>
+        </div>
+        <ion-button *ngIf="order.canPay; else reorderBtn" size="small" shape="round" class="tea-btn pay-btn">Pay now</ion-button>
+        <ng-template #reorderBtn>
+          <ion-button size="small" fill="outline" shape="round" class="reorder-btn" (click)="reorder(order, $event)">Reorder</ion-button>
+        </ng-template>
+      </div>
+    </a>
+
+    <div class="empty-state" *ngIf="orderService.loaded() && !orderService.orders().length">
+      <ion-icon name="receipt-outline"></ion-icon>
+      <h3>No orders yet</h3>
+      <p>Your past orders will show up here once you place one.</p>
+      <ion-button shape="round" class="tea-btn" routerLink="/products">Order now</ion-button>
+    </div>
+  </div>
+</ion-content>

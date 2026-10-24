@@ -1,0 +1,21 @@
+<a [routerLink]="['/products', product().id]" class="product-card">
+  <div class="product-card__image">
+    <ion-icon name="cafe-outline"></ion-icon>
+    <img [src]="product().image" [alt]="product().name" (error)="hideImage($event)" />
+    <span *ngIf="product().popular" class="product-card__badge">Bestseller</span>
+  </div>
+  <div class="product-card__body">
+    <p class="product-card__category">{{ product().category }}</p>
+    <h3>{{ product().name }}</h3>
+    <p class="product-card__desc">{{ product().description }}</p>
+    <div class="product-card__footer">
+      <span class="price-tag">₱{{ product().price }}</span>
+      <span class="product-card__rating" *ngIf="product().rating">
+        <ion-icon name="star-sharp"></ion-icon> {{ product().rating }}
+      </span>
+      <button class="product-card__add" (click)="quickAdd($event)" [attr.aria-label]="'Add ' + product().name + ' to cart'">
+        <ion-icon name="add"></ion-icon>
+      </button>
+    </div>
+  </div>
+</a>

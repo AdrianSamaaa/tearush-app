@@ -1,0 +1,128 @@
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.stat {
+  padding: 12px;
+  border-radius: 14px;
+  background: var(--tea-surface);
+  border: 1px solid var(--tea-line);
+
+  span {
+    display: block;
+    font-size: 0.68rem;
+    color: var(--ion-color-medium);
+  }
+
+  strong {
+    font-family: var(--tea-font-display);
+    font-size: 1.15rem;
+    color: var(--tea-espresso);
+  }
+
+  &--accent {
+    background: linear-gradient(135deg, var(--tea-brown), var(--tea-espresso));
+    border: none;
+
+    span { color: rgba(255, 255, 255, 0.75); }
+    strong { color: #fff; }
+  }
+}
+
+.ticket {
+  padding: 14px 16px;
+  margin-bottom: 14px;
+
+  &__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  &__id {
+    margin: 0;
+    font-weight: 800;
+    font-size: 0.95rem;
+    color: var(--tea-espresso);
+  }
+
+  &__time {
+    margin: 1px 0 0;
+    font-size: 0.72rem;
+    color: var(--ion-color-medium);
+  }
+
+  &__items {
+    margin: 10px 0;
+    padding: 10px 12px;
+    border-radius: 10px;
+    background: var(--tea-cream);
+    font-family: var(--tea-font-body);
+    font-size: 0.78rem;
+    line-height: 1.5;
+    color: var(--tea-espresso);
+    white-space: pre-wrap;
+  }
+
+  &__meta {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 0.76rem;
+    color: var(--ion-color-medium-shade);
+
+    span {
+      display: flex;
+      gap: 6px;
+      align-items: flex-start;
+    }
+
+    ion-icon {
+      flex-shrink: 0;
+      margin-top: 2px;
+      color: var(--tea-caramel-dark);
+    }
+  }
+
+  &__notes {
+    font-style: italic;
+  }
+
+  &__pay {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--tea-line);
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    margin-top: 10px;
+  }
+}
+
+.pay-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #F6DCD8;
+  color: var(--ion-color-danger-shade);
+  font-size: 0.68rem;
+  font-weight: 700;
+
+  &--paid {
+    background: #E3EADF;
+    color: var(--tea-leaf-dark);
+  }
+}

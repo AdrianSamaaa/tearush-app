@@ -1,0 +1,66 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/dashboard" text=""></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="auth">
+    <div class="auth__brand">
+      <div class="auth__logo auth__logo--icon">
+        <ion-icon name="mail-unread-outline"></ion-icon>
+      </div>
+      <h1>Verify your email</h1>
+      <p>We sent a 6-digit code to <strong>{{ auth.lastVerification()?.sentTo ?? auth.user()?.email }}</strong>.
+        Enter it below to start ordering.</p>
+    </div>
+
+    <div class="demo-code" *ngIf="auth.lastVerification()?.devCode as demo">
+      <ion-icon name="information-circle-outline"></ion-icon>
+      <div>
+        <strong>Demo mode:</strong> email sending isn't set up yet, so your code is shown here:
+        <span class="demo-code__value">{{ demo }}</span>
+        <button (click)="useDemoCode()">Fill it in</button>
+      </div>
+    </div>
+
+    <div class="notice notice--danger" *ngIf="auth.lastVerification()?.error as sendError">
+      <ion-icon name="alert-circle-outline"></ion-icon>
+      <span>{{ sendError }}</span>
+    </div>
+
+    <form (ngSubmit)="verify()" class="auth__form">
+      <p class="form-error" *ngIf="error()">{{ error() }}</p>
+
+      <ion-item class="form-item code-item" lines="none">
+        <ion-input
+          label="Verification code"
+          labelPlacement="stacked"
+          name="code"
+          inputmode="numeric"
+          autocomplete="one-time-code"
+          [maxlength]="6"
+          [(ngModel)]="code"
+          placeholder="••••••"
+          (keyup.enter)="verify()"
+        ></ion-input>
+      </ion-item>
+
+      <ion-button type="submit" expand="block" shape="round" class="tea-btn" [disabled]="busy()">
+        <ion-spinner *ngIf="busy()" name="crescent"></ion-spinner>
+        <span *ngIf="!busy()">Verify email</span>
+      </ion-button>
+    </form>
+
+    <p class="auth__switch">
+      Didn't get it? Check your spam folder or
+      <button class="link" (click)="resend()" [disabled]="cooldown() > 0 || resending()">
+        {{ cooldown() > 0 ? 'resend in ' + cooldown() + 's' : 'resend the code' }}
+      </button>
+    </p>
+    <a class="auth__guest" routerLink="/account/profile">Wrong email? Change it</a>
+    <a class="auth__guest" routerLink="/dashboard" replaceUrl="true" style="margin-top: 10px">I'll do this later</a>
+  </div>
+</ion-content>

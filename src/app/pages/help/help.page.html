@@ -1,0 +1,39 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/account" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>Help & Support</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="page-pad">
+    <p class="section-title">Frequently asked questions</p>
+    <ion-accordion-group class="faq tea-card">
+      <ion-accordion *ngFor="let faq of faqs; let i = index" [value]="'q' + i">
+        <ion-item slot="header" lines="none">
+          <ion-label class="ion-text-wrap">{{ faq.q }}</ion-label>
+        </ion-item>
+        <div slot="content" class="faq__answer">{{ faq.a }}</div>
+      </ion-accordion>
+    </ion-accordion-group>
+
+    <p class="section-title">Contact us</p>
+    <div class="contact tea-card">
+      <div class="contact__row">
+        <ion-icon name="mail-outline"></ion-icon>
+        <div><span>Email</span><p>{{ contact.email }}</p></div>
+      </div>
+      <div class="contact__row">
+        <ion-icon name="call-outline"></ion-icon>
+        <div><span>Phone / Viber</span><p>{{ contact.phone }}</p></div>
+      </div>
+      <div class="contact__row">
+        <ion-icon name="time-outline"></ion-icon>
+        <div><span>Support hours</span><p>{{ contact.hours }}</p></div>
+      </div>
+    </div>
+    <p class="hint">Please include your order number (e.g. TR-10001) so we can help faster.</p>
+  </div>
+</ion-content>

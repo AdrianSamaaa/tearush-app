@@ -1,0 +1,22 @@
+{
+  "name": "tearush-server",
+  "version": "1.0.0",
+  "description": "TeaRush REST API — accounts, menu, orders, promos and PayMongo payments",
+  "private": true,
+  "type": "module",
+  "main": "src/index.js",
+  "engines": {
+    "node": ">=22.13"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "webhook:register": "node scripts/register-webhook.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "nodemailer": "^7.0.13"
+  }
+}

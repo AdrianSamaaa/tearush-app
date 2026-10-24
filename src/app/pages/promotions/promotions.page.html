@@ -1,0 +1,47 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Promotions</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="page-pad">
+    <div class="notice" *ngIf="shop.promosError() && !shop.promos().length">
+      <ion-icon name="cloud-offline-outline"></ion-icon>
+      <span>{{ shop.promosError() }}</span>
+      <button (click)="shop.loadPromos()">Retry</button>
+    </div>
+
+    <div class="promo-card" *ngFor="let promo of shop.promos()" [attr.data-accent]="promo.accent">
+      <ion-icon name="pricetags-outline"></ion-icon>
+      <h2>{{ promo.title }}</h2>
+      <p class="promo-card__desc">{{ promo.description }}</p>
+      <div class="promo-card__footer">
+        <button class="promo-card__code" (click)="copyCode(promo.code)">
+          <span>{{ promo.code }}</span>
+          <ion-icon name="copy-outline"></ion-icon>
+        </button>
+        <span class="promo-card__expiry">{{ promo.expiry }}</span>
+      </div>
+      <button class="promo-card__use" (click)="useCode(promo.code)" [disabled]="cart.promoCode() === promo.code">
+        <ng-container *ngIf="cart.promoCode() === promo.code; else useLabel">
+          <ion-icon name="checkmark-circle"></ion-icon> Will be applied at checkout
+        </ng-container>
+        <ng-template #useLabel>Use at checkout</ng-template>
+      </button>
+    </div>
+  </div>
+
+  <div class="empty-state" *ngIf="!shop.promos().length && !shop.promosError()">
+    <ion-icon name="pricetags-outline"></ion-icon>
+    <h3>No active promotions</h3>
+    <p>Check back soon for new deals and vouchers.</p>
+  </div>
+</ion-content>

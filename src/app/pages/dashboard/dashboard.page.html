@@ -1,0 +1,124 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>TeaRush</ion-title>
+    <ion-buttons slot="end">
+      <ion-button [routerLink]="'/cart'" aria-label="Cart">
+        <ion-icon slot="icon-only" name="cart-outline"></ion-icon>
+        <ion-badge *ngIf="cart.itemCount() > 0" color="secondary" class="cart-badge">
+          {{ cart.itemCount() }}
+        </ion-badge>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="page-pad">
+
+    <!-- Greeting -->
+    <div class="greeting">
+      <p class="greeting__eyebrow">{{ greeting() }}</p>
+      <h1>Hello, {{ auth.firstName() ?? 'Tea Lover' }}! 🧋</h1>
+    </div>
+
+    <div class="notice" *ngIf="productService.error() && !productService.synced()">
+      <ion-icon name="cloud-offline-outline"></ion-icon>
+      <span>Showing the saved menu — can't reach the TeaRush server.</span>
+      <button (click)="productService.refresh(auth.isAdmin())">Retry</button>
+    </div>
+
+    <!-- Order in progress -->
+    <a *ngIf="activeOrder() as order" [routerLink]="['/orders', order.id]" class="active-order">
+      <ion-icon [name]="statusIcons[order.status]"></ion-icon>
+      <div>
+        <p class="active-order__label">{{ order.orderNumber }} · {{ order.statusLabel }}</p>
+        <p class="active-order__sub">{{ order.canPay ? 'Tap to finish paying' : 'Tap to track your order' }}</p>
+      </div>
+      <ion-icon name="chevron-forward-outline" class="active-order__chevron"></ion-icon>
+    </a>
+
+    <!-- Search + categories -->
+    <ion-searchbar
+      [(ngModel)]="searchTerm"
+      placeholder="Search drinks"
+      class="tea-searchbar"
+      show-clear-button="focus"
+    ></ion-searchbar>
+
+    <div class="category-scroll">
+      <ion-chip
+        *ngFor="let category of categories"
+        [class.category-chip--active]="activeCategory === category"
+        class="category-chip"
+        (click)="selectCategory(category)"
+      >
+        <ion-label>{{ category }}</ion-label>
+      </ion-chip>
+    </div>
+
+    <ng-container *ngIf="!isFiltering">
+      <!-- Best sellers -->
+      <div class="section-header">
+        <h2 class="section-title">Best sellers</h2>
+        <a [routerLink]="'/products'" class="section-header__link">See all</a>
+      </div>
+
+      <div class="best-sellers">
+        <a
+          *ngFor="let product of bestSellers()"
+          [routerLink]="['/products', product.id]"
+          class="product-tile"
+        >
+          <div class="product-tile__image">
+            <ion-icon name="cafe-outline"></ion-icon>
+            <img [src]="product.image" [alt]="product.name" (error)="hideImage($event)" />
+          </div>
+          <p class="product-tile__name">{{ product.name }}</p>
+          <p class="product-tile__meta" *ngIf="product.rating">
+            <ion-icon name="star-sharp"></ion-icon> {{ product.rating }}
+          </p>
+          <p class="price-tag">₱{{ product.price }}</p>
+        </a>
+      </div>
+
+      <!-- Promo + build-your-own -->
+      <div class="promo-row">
+        <a [routerLink]="'/promotions'" class="promo-banner">
+          <p class="promo-banner__tag">Limited-time offer</p>
+          <h2>{{ featuredPromo().title }}</h2>
+          <p class="promo-banner__code">Code {{ featuredPromo().code }}</p>
+        </a>
+        <a routerLink="/customize" class="custom-card">
+          <ion-icon name="color-wand-outline"></ion-icon>
+          <span>Build your own drink</span>
+        </a>
+      </div>
+    </ng-container>
+
+    <!-- All products -->
+    <div class="section-header">
+      <h2 class="section-title">{{ activeCategory === 'All' ? 'All products' : activeCategory }}</h2>
+      <span class="section-header__count">{{ filteredProducts.length }} drinks</span>
+    </div>
+
+    <div class="product-grid" *ngIf="filteredProducts.length; else noResults">
+      <app-product-card *ngFor="let product of filteredProducts" [product]="product"></app-product-card>
+    </div>
+
+    <ng-template #noResults>
+      <div class="empty-state">
+        <ion-icon name="cafe-outline"></ion-icon>
+        <h3>No drinks found</h3>
+        <p>Try a different search term or category.</p>
+      </div>
+    </ng-template>
+
+  </div>
+</ion-content>

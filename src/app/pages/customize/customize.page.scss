@@ -1,0 +1,88 @@
+.page-pad {
+  padding: 4px 20px 24px;
+}
+
+.intro {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--tea-cream-deep);
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 20px;
+
+  ion-icon {
+    font-size: 2rem;
+    color: var(--tea-caramel-dark);
+    flex-shrink: 0;
+  }
+
+  h1 {
+    margin: 0 0 2px;
+    font-family: var(--tea-font-display);
+    font-size: 1.05rem;
+    color: var(--tea-espresso);
+  }
+
+  p {
+    margin: 0;
+    font-size: 0.8rem;
+    color: var(--ion-color-medium-shade);
+  }
+}
+
+.option-label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--tea-espresso);
+  margin: 0 0 8px;
+}
+
+.tea-segment {
+  --background: var(--tea-surface);
+  border: 1px solid var(--tea-line);
+  border-radius: 12px;
+  margin-bottom: 18px;
+
+  ion-segment-button {
+    --color: var(--ion-color-medium-shade);
+    --color-checked: var(--tea-espresso);
+    --indicator-color: var(--tea-cream-deep);
+    font-size: 0.78rem;
+    font-weight: 700;
+    min-height: 36px;
+    text-transform: none;
+  }
+}
+
+.tea-segment--scroll ion-segment-button {
+  min-width: 100px;
+}
+
+.toppings {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 10px;
+}
+
+.topping-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 4px;
+  border-bottom: 1px solid var(--tea-line);
+
+  &__name {
+    display: block;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--tea-espresso);
+  }
+
+  &__price {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--ion-color-medium);
+  }
+}

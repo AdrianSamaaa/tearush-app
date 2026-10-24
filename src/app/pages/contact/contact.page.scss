@@ -1,0 +1,108 @@
+.section-title {
+  margin: 22px 0 10px 2px;
+}
+
+.quick {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 14px;
+
+  &__btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 16px 10px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, var(--tea-brown), var(--tea-espresso));
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 800;
+
+    ion-icon {
+      font-size: 1.5rem;
+      color: var(--tea-caramel);
+    }
+  }
+}
+
+.info {
+  padding: 4px 16px;
+
+  &__row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--tea-line);
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    ion-icon {
+      font-size: 1.2rem;
+      color: var(--tea-brown);
+      flex-shrink: 0;
+    }
+
+    span {
+      font-size: 0.72rem;
+      color: var(--ion-color-medium);
+    }
+
+    p {
+      margin: 1px 0 0;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--tea-espresso);
+    }
+  }
+}
+
+.sent {
+  padding: 22px 18px;
+  text-align: center;
+
+  ion-icon {
+    font-size: 2.6rem;
+    color: var(--tea-leaf);
+  }
+
+  h3 {
+    margin: 6px 0 4px;
+    font-family: var(--tea-font-display);
+    color: var(--tea-espresso);
+  }
+
+  p {
+    margin: 0 0 14px;
+    font-size: 0.84rem;
+    color: var(--ion-color-medium-shade);
+  }
+}
+
+.faq-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: var(--tea-cream-deep);
+  color: var(--tea-espresso);
+  text-decoration: none;
+  font-size: 0.84rem;
+  font-weight: 700;
+
+  span {
+    flex: 1;
+  }
+
+  ion-icon:first-child {
+    font-size: 1.2rem;
+    color: var(--tea-caramel-dark);
+  }
+}

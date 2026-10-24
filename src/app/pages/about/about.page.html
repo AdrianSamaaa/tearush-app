@@ -1,0 +1,56 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>About the App</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="page-pad">
+
+    <div class="about-hero">
+      <div class="about-hero__logo">
+        <img src="assets/logo/tearush-logo-placeholder.svg" alt="TeaRush logo" />
+      </div>
+      <h1>TeaRush</h1>
+      <p class="about-hero__tag">Milk tea, made yours</p>
+    </div>
+
+    <p class="about-body">
+      TeaRush is a mobile ordering app built around one milk tea line, designed to make
+      choosing, customizing, and getting your favorite drink as quick as possible. Browse
+      the full menu, adjust sweetness and toppings to your taste, save your go-to orders,
+      and grab exclusive promos — all without leaving the app.
+    </p>
+
+    <div class="objectives tea-card">
+      <ion-icon name="flag-outline"></ion-icon>
+      <div>
+        <h2>Our objective</h2>
+        <p>
+          To give milk tea drinkers a simple, reliable way to order exactly what they want,
+          while giving the shop a smoother, more organized way to receive and fulfill orders.
+        </p>
+      </div>
+    </div>
+
+    <p class="section-title">What you can do</p>
+    <div class="feature-list">
+      <div class="feature-row" *ngFor="let feature of features">
+        <div class="feature-row__icon">
+          <ion-icon [name]="feature.icon"></ion-icon>
+        </div>
+        <div>
+          <h3>{{ feature.title }}</h3>
+          <p>{{ feature.text }}</p>
+        </div>
+      </div>
+    </div>
+
+    <a class="tour-link" routerLink="/onboarding">Replay the welcome tour</a>
+    <p class="app-version">TeaRush v1.0.0 — Final Project</p>
+
+  </div>
+</ion-content>

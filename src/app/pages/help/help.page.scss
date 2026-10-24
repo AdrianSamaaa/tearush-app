@@ -1,0 +1,70 @@
+.section-title {
+  margin: 4px 0 10px 2px;
+}
+
+.faq {
+  overflow: hidden;
+  margin-bottom: 22px;
+
+  ion-accordion {
+    border-bottom: 1px solid var(--tea-line);
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  ion-item {
+    --background: transparent;
+    font-size: 0.86rem;
+    font-weight: 700;
+    color: var(--tea-espresso);
+  }
+
+  &__answer {
+    padding: 0 16px 14px;
+    font-size: 0.82rem;
+    line-height: 1.5;
+    color: var(--ion-color-medium-shade);
+  }
+}
+
+.contact {
+  padding: 6px 16px;
+
+  &__row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--tea-line);
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    ion-icon {
+      font-size: 1.2rem;
+      color: var(--tea-brown);
+    }
+
+    span {
+      font-size: 0.72rem;
+      color: var(--ion-color-medium);
+    }
+
+    p {
+      margin: 1px 0 0;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--tea-espresso);
+      user-select: all;
+    }
+  }
+}
+
+.hint {
+  margin: 10px 4px 0;
+  font-size: 0.75rem;
+  color: var(--ion-color-medium);
+}

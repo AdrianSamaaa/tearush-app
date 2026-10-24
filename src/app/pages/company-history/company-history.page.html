@@ -1,0 +1,63 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Company History</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="page-pad">
+
+    <div class="hero">
+      <div class="hero__logo">
+        <img src="assets/logo/tearush-logo-placeholder.svg" alt="TeaRush logo" />
+      </div>
+      <p class="hero__since">Since {{ company.founded }}</p>
+      <h1>Our story</h1>
+      <p class="hero__tag">{{ company.tagline }}</p>
+    </div>
+
+    <p class="story" *ngFor="let paragraph of company.story">{{ paragraph }}</p>
+
+    <p class="section-title">Milestones</p>
+    <div class="timeline tea-card">
+      <div class="milestone" *ngFor="let m of company.milestones; let last = last">
+        <div class="milestone__marker">
+          <span class="milestone__dot"></span>
+          <span class="milestone__line" *ngIf="!last"></span>
+        </div>
+        <div class="milestone__body">
+          <span class="milestone__year">{{ m.year }}</span>
+          <h3>{{ m.title }}</h3>
+          <p>{{ m.text }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mv">
+      <div class="mv__card tea-card">
+        <ion-icon name="flag-outline"></ion-icon>
+        <h3>Mission</h3>
+        <p>{{ company.mission }}</p>
+      </div>
+      <div class="mv__card tea-card">
+        <ion-icon name="eye-outline"></ion-icon>
+        <h3>Vision</h3>
+        <p>{{ company.vision }}</p>
+      </div>
+    </div>
+
+    <p class="section-title">What we stand for</p>
+    <div class="values">
+      <div class="value" *ngFor="let v of company.values">
+        <div class="value__icon"><ion-icon [name]="v.icon"></ion-icon></div>
+        <h3>{{ v.title }}</h3>
+        <p>{{ v.text }}</p>
+      </div>
+    </div>
+
+    <ion-button expand="block" shape="round" class="tea-btn" routerLink="/about-products">Explore our products</ion-button>
+  </div>
+</ion-content>

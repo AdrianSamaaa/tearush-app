@@ -1,0 +1,145 @@
+.page-pad {
+  padding: 4px 18px 90px;
+}
+
+.count-line {
+  margin: 0 0 12px 2px;
+  font-size: 0.78rem;
+  color: var(--ion-color-medium);
+}
+
+.manage-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.manage-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--tea-surface);
+  border: 1px solid var(--tea-line);
+  border-radius: 16px;
+  padding: 10px;
+
+  &__image {
+    position: relative;
+    flex: 0 0 56px;
+    height: 56px;
+    border-radius: 12px;
+    background: var(--tea-cream-deep);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+
+    ion-icon {
+      font-size: 1.4rem;
+      color: var(--tea-caramel);
+    }
+
+    img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &__body {
+    flex: 1;
+    min-width: 0;
+
+    h3 {
+      margin: 0 0 2px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--tea-espresso);
+    }
+  }
+
+  &__meta {
+    margin: 0 0 2px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--tea-caramel-dark);
+  }
+
+  &__desc {
+    margin: 0;
+    font-size: 0.75rem;
+    color: var(--ion-color-medium);
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  &__actions {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+}
+
+.icon-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  border: none;
+  background: var(--tea-cream-deep);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  ion-icon {
+    font-size: 1rem;
+    color: var(--tea-brown);
+  }
+
+  &--danger ion-icon {
+    color: var(--ion-color-danger);
+  }
+}
+
+.reset-link {
+  display: block;
+  margin: 20px auto 0;
+  background: none;
+  border: none;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--ion-color-medium);
+  text-decoration: underline;
+}
+
+.hidden-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  margin-left: 4px;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: #EAE6E1;
+  color: var(--ion-color-medium-shade);
+  font-size: 0.6rem;
+  font-weight: 800;
+  vertical-align: 2px;
+}
+
+/* Modal form */
+.form-content {
+  --background: var(--tea-cream);
+}
+
+.save-btn {
+  --background: var(--tea-brown);
+  --background-activated: var(--tea-espresso);
+  --box-shadow: none;
+  font-weight: 700;
+  height: 48px;
+  margin-top: 8px;
+}

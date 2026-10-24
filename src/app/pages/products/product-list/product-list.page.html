@@ -1,0 +1,54 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Products</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="page-pad">
+
+    <div class="notice" *ngIf="productService.error() && !productService.synced()">
+      <ion-icon name="cloud-offline-outline"></ion-icon>
+      <span>Offline — showing the saved menu.</span>
+      <button (click)="productService.refresh()">Retry</button>
+    </div>
+
+    <ion-searchbar
+      [(ngModel)]="searchTerm"
+      placeholder="Search for a drink"
+      class="tea-searchbar"
+      show-clear-button="focus"
+    ></ion-searchbar>
+
+    <div class="category-scroll">
+      <ion-chip
+        *ngFor="let category of categories"
+        [class.category-chip--active]="activeCategory === category"
+        class="category-chip"
+        (click)="selectCategory(category)"
+      >
+        <ion-label>{{ category }}</ion-label>
+      </ion-chip>
+    </div>
+
+    <div class="product-grid" *ngIf="filteredProducts.length; else emptyState">
+      <app-product-card *ngFor="let product of filteredProducts" [product]="product"></app-product-card>
+    </div>
+
+    <ng-template #emptyState>
+      <div class="empty-state">
+        <ion-icon name="cafe-outline"></ion-icon>
+        <h3>No drinks found</h3>
+        <p>Try a different search term or category.</p>
+      </div>
+    </ng-template>
+
+  </div>
+</ion-content>

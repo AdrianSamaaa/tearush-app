@@ -1,0 +1,72 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>About Our Products</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="page-pad">
+
+    <div class="intro tea-card">
+      <ion-icon name="cafe-outline"></ion-icon>
+      <div>
+        <h1>{{ totalProducts() }} drinks, four lines</h1>
+        <p>Every TeaRush drink is hand-shaken to order and fully customizable — size, sweetness, ice and add-ons.</p>
+      </div>
+    </div>
+
+    <p class="section-title">Our product lines</p>
+    <a class="line tea-card" *ngFor="let line of lines()" [routerLink]="['/products']" [queryParams]="{ category: line.category }">
+      <span class="line__emoji">{{ line.emoji }}</span>
+      <div class="line__body">
+        <h3>{{ line.category }}</h3>
+        <p>{{ line.text }}</p>
+        <span class="line__meta">{{ line.count }} drinks<ng-container *ngIf="line.from"> · from ₱{{ line.from }}</ng-container></span>
+      </div>
+      <ion-icon name="chevron-forward-outline"></ion-icon>
+    </a>
+
+    <p class="section-title">What goes into every cup</p>
+    <div class="ingredients">
+      <div class="ingredient" *ngFor="let i of ingredients">
+        <ion-icon [name]="i.icon"></ion-icon>
+        <h3>{{ i.title }}</h3>
+        <p>{{ i.text }}</p>
+      </div>
+    </div>
+
+    <p class="section-title">Sizes</p>
+    <div class="table tea-card">
+      <div class="table__row" *ngFor="let s of sizes">
+        <span>{{ s.size }}</span>
+        <span>{{ s.surcharge === 0 ? 'Menu price' : (s.surcharge > 0 ? '+₱' + s.surcharge : '−₱' + -s.surcharge) }}</span>
+      </div>
+    </div>
+
+    <p class="section-title">Add-ons</p>
+    <div class="table tea-card">
+      <div class="table__row" *ngFor="let t of toppings">
+        <span>{{ t.name }}</span>
+        <span>+₱{{ t.price }}</span>
+      </div>
+    </div>
+
+    <p class="section-title">Make it yours</p>
+    <div class="chips">
+      <span class="chips__label">Sugar</span>
+      <span class="chip" *ngFor="let s of sugarLevels">{{ s }}</span>
+    </div>
+    <div class="chips">
+      <span class="chips__label">Ice</span>
+      <span class="chip" *ngFor="let i of iceLevels">{{ i }}</span>
+    </div>
+
+    <div class="cta">
+      <ion-button expand="block" shape="round" class="tea-btn" routerLink="/products">Browse all products</ion-button>
+      <ion-button expand="block" shape="round" fill="outline" class="tea-btn--outline" routerLink="/customize">Build your own drink</ion-button>
+    </div>
+  </div>
+</ion-content>

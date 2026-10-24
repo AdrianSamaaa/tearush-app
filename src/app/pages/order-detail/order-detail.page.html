@@ -1,0 +1,136 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/orders" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ order()?.orderNumber ?? 'Order' }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="page-pad">
+    <div class="notice notice--danger" *ngIf="error()">
+      <ion-icon name="alert-circle-outline"></ion-icon>
+      <span>{{ error() }}</span>
+      <button (click)="load()">Retry</button>
+    </div>
+
+    <div class="center-spinner" *ngIf="!order() && !error()">
+      <ion-spinner name="crescent"></ion-spinner>
+    </div>
+
+    <ng-container *ngIf="order() as o">
+
+      <!-- Status hero -->
+      <div class="hero" [attr.data-status]="o.status">
+        <ion-icon [name]="statusIcons[o.status]"></ion-icon>
+        <div>
+          <p class="hero__label">{{ o.statusLabel }}</p>
+          <p class="hero__sub">
+            {{ o.fulfillment === 'pickup' ? 'Pickup' : 'Delivery' }} · placed {{ o.createdAt | date: 'MMM d, h:mm a' }}
+          </p>
+        </div>
+      </div>
+
+      <!-- Unpaid online order -->
+      <div class="pay-box tea-card" *ngIf="o.canPay">
+        <p><strong>Waiting for your {{ o.paymentMethodLabel }} payment.</strong>
+          The shop starts preparing once payment is confirmed.</p>
+        <ion-button expand="block" shape="round" class="tea-btn" (click)="payNow()" [disabled]="paying()">
+          <ion-spinner *ngIf="paying()" name="crescent"></ion-spinner>
+          <span *ngIf="!paying()">Pay {{ o.total | peso }} with {{ o.paymentMethodLabel }}</span>
+        </ion-button>
+        <button class="link-btn" (click)="load()"><ion-icon name="refresh-outline"></ion-icon> I already paid — check again</button>
+      </div>
+
+      <!-- Cancelled -->
+      <div class="notice notice--danger" *ngIf="o.status === 'cancelled'">
+        <ion-icon name="close-circle-outline"></ion-icon>
+        <span>This order was cancelled{{ o.cancelReason ? ': ' + o.cancelReason : '' }}.
+          <ng-container *ngIf="o.paymentStatus === 'refunded'"> Your payment is being refunded.</ng-container>
+        </span>
+      </div>
+
+      <!-- Progress -->
+      <div class="steps tea-card" *ngIf="o.status !== 'cancelled' && o.status !== 'awaiting_payment'">
+        <div class="step" *ngFor="let step of steps(); let last = last" [class.step--done]="step.done" [class.step--current]="step.current">
+          <div class="step__marker">
+            <span class="step__dot"></span>
+            <span class="step__line" *ngIf="!last"></span>
+          </div>
+          <div class="step__text">
+            <p>{{ step.label }}</p>
+            <span *ngIf="step.at">{{ step.at | date: 'h:mm a' }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Items -->
+      <p class="section-title">Items</p>
+      <div class="items tea-card">
+        <div class="item" *ngFor="let item of o.items">
+          <div class="item__image">
+            <ion-icon name="cafe-outline"></ion-icon>
+            <img [src]="item.image" [alt]="item.name" (error)="hideImage($event)" />
+          </div>
+          <div class="item__body">
+            <p class="item__name">{{ item.quantity }}× {{ item.name }}</p>
+            <p class="item__meta">{{ item.size }} · {{ item.sugar }} sugar · {{ item.ice }}</p>
+            <p class="item__meta" *ngIf="item.options.milk && item.options.milk !== 'None'">{{ item.options.milk }}</p>
+            <p class="item__meta" *ngIf="item.toppings.length">+ {{ item.toppings.join(', ') }}</p>
+          </div>
+          <span class="item__price">{{ item.unitPrice * item.quantity | peso }}</span>
+        </div>
+
+        <div class="totals">
+          <div><span>Subtotal</span><span>{{ o.subtotal | peso }}</span></div>
+          <div *ngIf="o.fulfillment === 'delivery'"><span>Delivery fee</span><span>{{ o.deliveryFee | peso }}</span></div>
+          <div class="totals__discount" *ngIf="o.discount > 0"><span>Promo {{ o.promoCode }}</span><span>−{{ o.discount | peso }}</span></div>
+          <div class="totals__total"><span>Total</span><span>{{ o.total | peso }}</span></div>
+        </div>
+      </div>
+
+      <!-- Payment + delivery details -->
+      <p class="section-title">Details</p>
+      <div class="details tea-card">
+        <div class="detail">
+          <ion-icon name="card-outline"></ion-icon>
+          <div>
+            <p>{{ o.paymentMethodLabel }}</p>
+            <span [class.paid]="o.paymentStatus === 'paid'">{{ paymentStatusText(o) }}</span>
+          </div>
+        </div>
+        <div class="detail" *ngIf="o.fulfillment === 'delivery' && o.address">
+          <ion-icon name="location-outline"></ion-icon>
+          <div><p>Deliver to {{ o.contactName }}</p><span>{{ o.address }}</span></div>
+        </div>
+        <div class="detail" *ngIf="o.fulfillment === 'pickup'">
+          <ion-icon name="bag-check-outline"></ion-icon>
+          <div><p>Pickup by {{ o.contactName }}</p><span>TeaRush counter</span></div>
+        </div>
+        <div class="detail">
+          <ion-icon name="call-outline"></ion-icon>
+          <div><p>Contact number</p><span>{{ o.contactPhone }}</span></div>
+        </div>
+        <div class="detail" *ngIf="o.notes">
+          <ion-icon name="chatbubble-outline"></ion-icon>
+          <div><p>Notes</p><span>{{ o.notes }}</span></div>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="actions">
+        <ion-button expand="block" shape="round" fill="outline" class="tea-btn--outline" (click)="reorder()">Reorder</ion-button>
+        <ion-button *ngIf="o.canCancel" expand="block" shape="round" fill="clear" color="danger" (click)="confirmCancel()" [disabled]="cancelling()">
+          Cancel order
+        </ion-button>
+        <a class="help-link" routerLink="/help"><ion-icon name="help-circle-outline"></ion-icon> Need help with this order?</a>
+      </div>
+
+    </ng-container>
+  </div>
+</ion-content>

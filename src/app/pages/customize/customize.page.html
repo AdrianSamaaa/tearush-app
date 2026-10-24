@@ -1,0 +1,83 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Customize My Drink</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="page-pad">
+
+    <div class="intro">
+      <ion-icon name="color-wand-outline"></ion-icon>
+      <div>
+        <h1>Build your own cup</h1>
+        <p>Start from scratch and mix your ideal drink.</p>
+      </div>
+    </div>
+
+    <p class="option-label">Tea base</p>
+    <ion-segment [(ngModel)]="selectedTeaBase" class="tea-segment tea-segment--scroll" scrollable="true">
+      <ion-segment-button *ngFor="let base of teaBases" [value]="base">
+        <ion-label>{{ base }}</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+
+    <p class="option-label">Milk</p>
+    <ion-segment [(ngModel)]="selectedMilk" class="tea-segment tea-segment--scroll" scrollable="true">
+      <ion-segment-button *ngFor="let milk of milkOptions" [value]="milk">
+        <ion-label>{{ milk }}</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+
+    <p class="option-label">Size</p>
+    <ion-segment [(ngModel)]="selectedSize" class="tea-segment">
+      <ion-segment-button *ngFor="let size of sizes" [value]="size">
+        <ion-label>{{ size }}</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+
+    <p class="option-label">Sugar level</p>
+    <ion-segment [(ngModel)]="selectedSugar" class="tea-segment tea-segment--scroll" scrollable="true">
+      <ion-segment-button *ngFor="let level of sugarLevels" [value]="level">
+        <ion-label>{{ level }}</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+
+    <p class="option-label">Ice level</p>
+    <ion-segment [(ngModel)]="selectedIce" class="tea-segment tea-segment--scroll" scrollable="true">
+      <ion-segment-button *ngFor="let level of iceLevels" [value]="level">
+        <ion-label>{{ level }}</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+
+    <p class="option-label">Add-ons</p>
+    <div class="toppings">
+      <label class="topping-row" *ngFor="let topping of toppings">
+        <div>
+          <span class="topping-row__name">{{ topping.name }}</span>
+          <span class="topping-row__price">+₱{{ topping.price }}</span>
+        </div>
+        <ion-checkbox
+          [checked]="selectedToppings.includes(topping.id)"
+          (ionChange)="toggleTopping(topping.id, $event.detail.checked)"
+        ></ion-checkbox>
+      </label>
+    </div>
+
+  </div>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <div class="checkout-bar">
+    <div class="checkout-bar__total">
+      <span>Total</span>
+      <p class="price-tag">₱{{ totalPrice }}</p>
+    </div>
+    <ion-button shape="round" class="checkout-bar__cta" (click)="addToCart()">
+      Add to Cart
+    </ion-button>
+  </div>
+</ion-footer>

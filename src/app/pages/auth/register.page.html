@@ -1,0 +1,62 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/login" text=""></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="auth">
+    <div class="auth__brand">
+      <div class="auth__logo">
+        <img src="assets/logo/tearush-logo-placeholder.svg" alt="TeaRush logo" />
+      </div>
+      <h1>Create your account</h1>
+      <p>Save your addresses, pay online and track every order.</p>
+    </div>
+
+    <form (ngSubmit)="submit()" class="auth__form">
+      <p class="form-error" *ngIf="error()">{{ error() }}</p>
+
+      <ion-item class="form-item" lines="none">
+        <ion-input label="Full name" labelPlacement="stacked" name="name" autocomplete="name"
+          [(ngModel)]="form.name" placeholder="Juan Dela Cruz"></ion-input>
+      </ion-item>
+
+      <ion-item class="form-item" lines="none">
+        <ion-input label="Email" labelPlacement="stacked" type="email" inputmode="email" name="email"
+          autocomplete="email" [(ngModel)]="form.email" placeholder="you@example.com"></ion-input>
+      </ion-item>
+
+      <ion-item class="form-item" lines="none">
+        <ion-input label="Mobile number (optional)" labelPlacement="stacked" type="tel" inputmode="tel" name="phone"
+          autocomplete="tel" [(ngModel)]="form.phone" placeholder="0917 123 4567"></ion-input>
+      </ion-item>
+
+      <ion-item class="form-item" lines="none">
+        <ion-input label="Password" labelPlacement="stacked" type="password" name="password"
+          autocomplete="new-password" [(ngModel)]="form.password" placeholder="At least 8 characters">
+          <ion-input-password-toggle slot="end"></ion-input-password-toggle>
+        </ion-input>
+      </ion-item>
+
+      <ion-item class="form-item" lines="none">
+        <ion-input label="Confirm password" labelPlacement="stacked" type="password" name="confirm"
+          autocomplete="new-password" [(ngModel)]="form.confirm" placeholder="Type it again"
+          (keyup.enter)="submit()"></ion-input>
+      </ion-item>
+
+      <ion-button type="submit" expand="block" shape="round" class="tea-btn" [disabled]="busy()">
+        <ion-spinner *ngIf="busy()" name="crescent"></ion-spinner>
+        <span *ngIf="!busy()">Create account</span>
+      </ion-button>
+      <p class="auth__terms">We'll email you a 6-digit code to verify your address.</p>
+    </form>
+
+    <p class="auth__switch">
+      Already have an account?
+      <a [routerLink]="['/login']" [queryParams]="{ returnUrl: returnUrl }" replaceUrl="true">Log in</a>
+    </p>
+  </div>
+</ion-content>

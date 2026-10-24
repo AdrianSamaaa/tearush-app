@@ -1,0 +1,167 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/cart" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>Checkout</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="page-pad">
+
+    <!-- Delivery or pickup -->
+    <ion-segment [value]="fulfillment()" (ionChange)="setFulfillment($any($event.detail.value))" class="tea-segment">
+      <ion-segment-button value="delivery">
+        <ion-icon name="bicycle-outline"></ion-icon>
+        <ion-label>Delivery</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="pickup">
+        <ion-icon name="storefront-outline"></ion-icon>
+        <ion-label>Pickup</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+
+    <!-- Delivery address -->
+    <section *ngIf="fulfillment() === 'delivery'; else pickupSection">
+      <div class="section-head">
+        <p class="option-label">Deliver to</p>
+        <a routerLink="/account/addresses" class="section-head__link">Manage</a>
+      </div>
+
+      <div class="center-spinner" *ngIf="addressesLoading() && !addressService.loaded()">
+        <ion-spinner name="crescent"></ion-spinner>
+      </div>
+
+      <div class="notice notice--danger" *ngIf="addressesError()">
+        <ion-icon name="alert-circle-outline"></ion-icon>
+        <span>{{ addressesError() }}</span>
+        <button (click)="loadAddresses()">Retry</button>
+      </div>
+
+      <button
+        *ngFor="let address of addressService.addresses()"
+        class="choice-card"
+        [class.choice-card--selected]="selectedAddressId() === address.id"
+        (click)="selectAddress(address.id)"
+      >
+        <ion-icon class="choice-card__radio" [name]="selectedAddressId() === address.id ? 'checkmark-circle' : 'ellipse-outline'"></ion-icon>
+        <div class="choice-card__body">
+          <strong>{{ address.label }} · {{ address.recipient }}</strong>
+          <span>{{ formatAddress(address) }}</span>
+          <span class="muted">{{ address.phone }}<ng-container *ngIf="address.notes"> · {{ address.notes }}</ng-container></span>
+        </div>
+      </button>
+
+      <a class="add-link" routerLink="/account/addresses" [queryParams]="{ add: 1 }">
+        <ion-icon name="add-circle-outline"></ion-icon>
+        {{ addressService.addresses().length ? 'Add another address' : 'Add a delivery address' }}
+      </a>
+    </section>
+
+    <!-- Pickup contact -->
+    <ng-template #pickupSection>
+      <section>
+        <div class="pickup-info tea-card">
+          <ion-icon name="storefront-outline"></ion-icon>
+          <div>
+            <strong>Pick up at the TeaRush counter</strong>
+            <span>We'll notify you when your drinks are ready — usually 10–15 minutes.</span>
+          </div>
+        </div>
+        <ion-item class="form-item" lines="none">
+          <ion-input label="Name for pickup" labelPlacement="stacked" [(ngModel)]="contactName" placeholder="Juan Dela Cruz"></ion-input>
+        </ion-item>
+        <ion-item class="form-item" lines="none">
+          <ion-input label="Mobile number (optional)" labelPlacement="stacked" type="tel" inputmode="tel" [(ngModel)]="contactPhone" placeholder="0917 123 4567"></ion-input>
+        </ion-item>
+      </section>
+    </ng-template>
+
+    <!-- Payment method -->
+    <p class="option-label">Payment method</p>
+    <div class="payment-grid">
+      <button
+        *ngFor="let option of paymentOptions()"
+        class="payment-option"
+        [class.payment-option--selected]="paymentMethod() === option.value"
+        [class.payment-option--off]="!option.available"
+        (click)="selectPayment(option)"
+      >
+        <ion-icon [name]="iconFor(option.value)"></ion-icon>
+        <span>{{ option.label }}</span>
+      </button>
+    </div>
+    <p class="secure-note" *ngIf="isOnlinePayment()">
+      <ion-icon name="lock-closed-outline"></ion-icon>
+      You'll pay on PayMongo's secure page. TeaRush never sees your card or wallet details.
+    </p>
+    <p class="secure-note" *ngIf="!shop.paymentsEnabled()">
+      <ion-icon name="lock-closed-outline"></ion-icon>
+      GCash, Maya, card and GrabPay (via PayMongo) turn on once the shop sets up online payments{{ auth.isAdmin() ? ' in Shop Settings' : '' }}.
+    </p>
+
+    <!-- Promo code -->
+    <p class="option-label">Promo code</p>
+    <div class="promo-row" *ngIf="!appliedPromo() || quote()?.promoError; else promoApplied">
+      <ion-item class="form-item promo-row__input" lines="none">
+        <ion-input [(ngModel)]="promoInput" placeholder="e.g. TEARUSH20" autocapitalize="characters" (keyup.enter)="applyPromo()"></ion-input>
+      </ion-item>
+      <ion-button fill="outline" shape="round" class="tea-btn--outline" (click)="applyPromo()" [disabled]="!promoInput.trim()">Apply</ion-button>
+    </div>
+    <p class="form-error" *ngIf="appliedPromo() && quote()?.promoError">{{ quote()?.promoError }}</p>
+    <ng-template #promoApplied>
+      <div class="notice notice--leaf">
+        <ion-icon name="pricetag-outline"></ion-icon>
+        <span><strong>{{ quote()?.promo?.code ?? appliedPromo() }}</strong> — {{ quote()?.promo?.title ?? 'checking…' }}</span>
+        <button (click)="removePromo()" aria-label="Remove promo"><ion-icon name="close-circle"></ion-icon></button>
+      </div>
+    </ng-template>
+
+    <!-- Notes -->
+    <ion-item class="form-item" lines="none">
+      <ion-textarea label="Notes for the shop (optional)" labelPlacement="stacked" [(ngModel)]="notes" rows="2"
+        [maxlength]="300" placeholder="e.g. Less ice please, gate code 1234"></ion-textarea>
+    </ion-item>
+
+    <!-- Summary -->
+    <div class="summary tea-card">
+      <p class="option-label">Order summary</p>
+      <div class="summary__item" *ngFor="let item of cart.items()">
+        <span>{{ item.quantity }}× {{ item.name }} <small>({{ item.size }})</small></span>
+        <span>{{ item.unitPrice * item.quantity | peso }}</span>
+      </div>
+      <div class="summary__divider"></div>
+
+      <div class="notice notice--danger" *ngIf="quoteError()">
+        <ion-icon name="alert-circle-outline"></ion-icon>
+        <span>{{ quoteError() }}</span>
+        <button (click)="requote()">Retry</button>
+      </div>
+
+      <ng-container *ngIf="quote() as q">
+        <div class="summary__row"><span>Subtotal</span><span>{{ q.subtotal | peso }}</span></div>
+        <div class="summary__row" *ngIf="fulfillment() === 'delivery'"><span>Delivery fee</span><span>{{ q.deliveryFee | peso }}</span></div>
+        <div class="summary__row summary__row--discount" *ngIf="q.discount > 0">
+          <span>Promo {{ q.promo?.code }}</span><span>−{{ q.discount | peso }}</span>
+        </div>
+        <div class="summary__row summary__row--total"><span>Total</span><span>{{ q.total | peso }}</span></div>
+      </ng-container>
+      <div class="center-spinner" *ngIf="quoting() && !quote()"><ion-spinner name="dots"></ion-spinner></div>
+    </div>
+
+  </div>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <div class="checkout-bar">
+    <div class="checkout-bar__total">
+      <span>Total</span>
+      <p class="price-tag">{{ total() | peso }}</p>
+    </div>
+    <ion-button shape="round" class="checkout-bar__cta" (click)="placeOrder()" [disabled]="placing() || quoting()">
+      <ion-spinner *ngIf="placing()" name="crescent"></ion-spinner>
+      <span *ngIf="!placing()">{{ isOnlinePayment() ? 'Continue to Payment' : 'Place Order' }}</span>
+    </ion-button>
+  </div>
+</ion-footer>

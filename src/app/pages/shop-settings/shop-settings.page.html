@@ -1,0 +1,102 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Shop Settings</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="page-pad">
+
+    <!-- Server mode: everything is configured on the server -->
+    <ng-container *ngIf="api.mode() === 'server'; else deviceMode">
+      <div class="card tea-card">
+        <h2><ion-icon name="server-outline"></ion-icon> Connected to the TeaRush server</h2>
+        <p>Payments and emails are configured on the server, not in the app:</p>
+        <ul>
+          <li><code>PAYMONGO_SECRET_KEY</code> and <code>PAYMONGO_WEBHOOK_SECRET</code> for GCash, Maya, cards and GrabPay</li>
+          <li><code>SMTP_HOST</code>, <code>SMTP_USER</code>, <code>SMTP_PASS</code> for verification emails</li>
+        </ul>
+        <p class="status" [class.status--on]="shop.paymentsEnabled()">
+          <ion-icon [name]="shop.paymentsEnabled() ? 'checkmark-circle' : 'alert-circle-outline'"></ion-icon>
+          Online payments are {{ shop.paymentsEnabled() ? 'ON' : 'OFF' }} on the server.
+        </p>
+      </div>
+    </ng-container>
+
+    <ng-template #deviceMode>
+      <div class="notice">
+        <ion-icon name="information-circle-outline"></ion-icon>
+        <span>This app is running without a server, so these settings are saved on this phone only.</span>
+      </div>
+
+      <!-- PayMongo -->
+      <div class="card tea-card">
+        <h2><ion-icon name="card-outline"></ion-icon> Online payments (PayMongo)</h2>
+        <p class="status" [class.status--on]="integrations.paymentsEnabled()">
+          <ion-icon [name]="integrations.paymentsEnabled() ? 'checkmark-circle' : 'alert-circle-outline'"></ion-icon>
+          {{ integrations.paymentsEnabled() ? 'ON — customers can pay with the methods below.' : 'OFF — checkout offers cash only.' }}
+        </p>
+        <ol class="steps">
+          <li>Sign up free at <strong>dashboard.paymongo.com</strong>.</li>
+          <li>Go to <strong>Developers → API keys</strong> and copy the <strong>test secret key</strong> (starts with <code>sk_test_</code>).</li>
+          <li>Paste it below and save. Test mode never charges real money.</li>
+        </ol>
+
+        <p class="form-error" *ngIf="payError()">{{ payError() }}</p>
+        <ion-item class="form-item" lines="none">
+          <ion-input label="PayMongo test secret key" labelPlacement="stacked" type="password" [(ngModel)]="form.secretKey"
+            placeholder="sk_test_…" autocomplete="off">
+            <ion-input-password-toggle slot="end"></ion-input-password-toggle>
+          </ion-input>
+        </ion-item>
+
+        <p class="option-label">Payment methods to offer</p>
+        <ion-item class="form-item form-item--inline" lines="none" *ngFor="let m of methods">
+          <ion-checkbox [checked]="form.methods.includes(m.value)" (ionChange)="toggleMethod(m.value, $event.detail.checked)"
+            labelPlacement="end" justify="start">{{ m.label }}</ion-checkbox>
+        </ion-item>
+        <p class="form-hint">Each method must also be enabled on your PayMongo account.</p>
+
+        <ion-button expand="block" shape="round" class="tea-btn" (click)="savePayments()">Save payment settings</ion-button>
+        <p class="fine">For a real shop, put your <strong>live</strong> key on the TeaRush server instead — live keys are never accepted here.
+          Test card: 4343 4343 4343 4345, any future date, any CVC.</p>
+      </div>
+
+      <!-- EmailJS -->
+      <div class="card tea-card">
+        <h2><ion-icon name="mail-outline"></ion-icon> Verification emails (EmailJS)</h2>
+        <p class="status" [class.status--on]="integrations.emailEnabled()">
+          <ion-icon [name]="integrations.emailEnabled() ? 'checkmark-circle' : 'alert-circle-outline'"></ion-icon>
+          {{ integrations.emailEnabled() ? 'ON — codes are emailed to customers.' : 'OFF — demo mode: codes are shown in the app.' }}
+        </p>
+        <ol class="steps">
+          <li>Sign up free at <strong>emailjs.com</strong> and add an email service (e.g. Gmail) → copy its <strong>Service ID</strong>.</li>
+          <li>Create an email template. Set <strong>To Email</strong> to <code>{{ toEmailVar }}</code> and put
+            <code>{{ codeVar }}</code> in the message → copy the <strong>Template ID</strong>.</li>
+          <li>Account → General → copy your <strong>Public Key</strong>.</li>
+        </ol>
+        <ion-item class="form-item" lines="none">
+          <ion-input label="Service ID" labelPlacement="stacked" [(ngModel)]="form.serviceId" placeholder="service_xxxxxxx"></ion-input>
+        </ion-item>
+        <ion-item class="form-item" lines="none">
+          <ion-input label="Template ID" labelPlacement="stacked" [(ngModel)]="form.templateId" placeholder="template_xxxxxxx"></ion-input>
+        </ion-item>
+        <ion-item class="form-item" lines="none">
+          <ion-input label="Public key" labelPlacement="stacked" [(ngModel)]="form.publicKey" placeholder="xxxxxxxxxxxxxxxx"></ion-input>
+        </ion-item>
+        <div class="row">
+          <ion-button shape="round" class="tea-btn" (click)="saveEmail()">Save</ion-button>
+          <ion-button shape="round" fill="outline" class="tea-btn--outline" (click)="sendTestEmail()"
+            [disabled]="testingEmail() || !form.serviceId || !form.templateId || !form.publicKey">
+            <ion-spinner *ngIf="testingEmail()" name="dots"></ion-spinner>
+            <span *ngIf="!testingEmail()">Send test email</span>
+          </ion-button>
+        </div>
+        <p class="status" *ngIf="emailResult() as r" [class.status--on]="r.ok">{{ r.text }}</p>
+      </div>
+    </ng-template>
+  </div>
+</ion-content>
