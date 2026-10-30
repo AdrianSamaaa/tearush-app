@@ -24,6 +24,7 @@ import { ApiService } from '../../services/api.service';
 import { AuthService } from '../../services/auth.service';
 import { IntegrationsService, ONLINE_METHODS, isTestSecretKey } from '../../services/integrations.service';
 import { ShopService } from '../../services/shop.service';
+import { sendEmailJs, verificationParams } from '../../services/emailjs';
 
 addIcons({
   'card-outline': cardOutline,
@@ -69,7 +70,7 @@ export class ShopSettingsPage {
   /** EmailJS template variable names, shown in the setup steps. */
   readonly toEmailVar = '{{to_email}}';
   readonly codeVar = '{{code}}';
-  form = { secretKey: '', methods: [] as PaymentMethod[], serviceId: '', templateId: '', publicKey: '' };
+  form = { secretKey: '', methods: [] as PaymentMethod[], serviceId: '', templateId: '', publicKey: '', privateKey: '' };
   readonly payError = signal<string | null>(null);
   readonly testingEmail = signal(false);
   readonly emailResult = signal<{ ok: boolean; text: string } | null>(null);
@@ -83,6 +84,7 @@ export class ShopSettingsPage {
       serviceId: s.emailjsServiceId,
       templateId: s.emailjsTemplateId,
       publicKey: s.emailjsPublicKey,
+      privateKey: s.emailjsPrivateKey,
     };
     void this.shop.loadConfig();
   }
@@ -116,6 +118,7 @@ export class ShopSettingsPage {
       emailjsServiceId: this.form.serviceId.trim(),
       emailjsTemplateId: this.form.templateId.trim(),
       emailjsPublicKey: this.form.publicKey.trim(),
+      emailjsPrivateKey: this.form.privateKey.trim(),
     });
     await this.toast(this.integrations.emailEnabled() ? 'Email settings saved.' : 'Email turned off — codes will be shown in the app (demo mode).');
   }
@@ -127,21 +130,11 @@ export class ShopSettingsPage {
     if (!to || !this.integrations.emailEnabled()) return;
     this.testingEmail.set(true);
     this.emailResult.set(null);
-    const s = this.integrations.settings();
     try {
-      const res = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          service_id: s.emailjsServiceId,
-          template_id: s.emailjsTemplateId,
-          user_id: s.emailjsPublicKey,
-          template_params: { to_email: to, to_name: 'Admin', code: '123456', app_name: 'TeaRush' },
-        }),
-      });
-      this.emailResult.set(res.ok ? { ok: true, text: `Test email sent to ${to}.` } : { ok: false, text: `EmailJS said: ${await res.text()}` });
-    } catch {
-      this.emailResult.set({ ok: false, text: "Couldn't reach EmailJS. Check your internet connection." });
+      await sendEmailJs(this.integrations.emailJsKeys(), verificationParams(to, 'Admin', '123456'));
+      this.emailResult.set({ ok: true, text: `Test email sent to ${to}.` });
+    } catch (err) {
+      this.emailResult.set({ ok: false, text: (err as Error).message });
     } finally {
       this.testingEmail.set(false);
     }

@@ -5,6 +5,7 @@ import { PROMO_RULES, PromoRule } from '../data/promos.data';
 import { Order, OrderItem, OrderStatus, PaymentMethod } from '../models/order.model';
 import { CUSTOM_DRINK, DELIVERY_FEE, ICE_LEVELS, Product, ProductSize, SIZE_SURCHARGE, SUGAR_LEVELS, TOPPINGS } from '../models/product.model';
 import { Address, User, VerificationInfo } from '../models/user.model';
+import { sendEmailJs, verificationParams } from './emailjs';
 import { IntegrationsService } from './integrations.service';
 import {
   CheckoutLine,
@@ -321,19 +322,8 @@ export class LocalBackend {
 
     const info: VerificationInfo = { sentTo: user.email };
     if (!this.integrations.emailEnabled()) return { ...info, devCode: code };
-    const s = this.integrations.settings();
     try {
-      const res = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          service_id: s.emailjsServiceId,
-          template_id: s.emailjsTemplateId,
-          user_id: s.emailjsPublicKey,
-          template_params: { to_email: user.email, to_name: user.name.split(' ')[0], code, app_name: 'TeaRush' },
-        }),
-      });
-      if (!res.ok) throw new Error(await res.text());
+      await sendEmailJs(this.integrations.emailJsKeys(), verificationParams(user.email, user.name, code));
       return info;
     } catch (err) {
       console.warn('EmailJS failed', err);

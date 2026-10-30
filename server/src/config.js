@@ -58,13 +58,23 @@ export const config = {
     pass: env.SMTP_PASS || '',
     from: env.MAIL_FROM || (env.SMTP_USER ? `TeaRush <${env.SMTP_USER}>` : 'TeaRush <no-reply@tearush.app>'),
   },
+  /** Alternative to SMTP: EmailJS (https://www.emailjs.com). The private key stays on the server. */
+  emailjs: {
+    serviceId: env.EMAILJS_SERVICE_ID || '',
+    templateId: env.EMAILJS_TEMPLATE_ID || '',
+    publicKey: env.EMAILJS_PUBLIC_KEY || '',
+    privateKey: env.EMAILJS_PRIVATE_KEY || '',
+    apiUrl: env.EMAILJS_API_URL || 'https://api.emailjs.com/api/v1.0/email/send',
+  },
   /**
-   * When no SMTP is configured, return verification codes in the API response so the
-   * app can show them (always on in development; opt-in in production for demos).
+   * When no email provider is configured, return verification codes in the API response so
+   * the app can show them (always on in development; opt-in in production for demos).
    */
   emailDemoMode: !isProduction || env.EMAIL_DEMO_MODE === 'true',
 };
 
-export const emailEnabled = () => Boolean(config.smtp.host);
+export const smtpEnabled = () => Boolean(config.smtp.host);
+export const emailjsEnabled = () => Boolean(config.emailjs.serviceId && config.emailjs.templateId && config.emailjs.publicKey);
+export const emailEnabled = () => smtpEnabled() || emailjsEnabled();
 
 export const paymentsEnabled = () => Boolean(config.paymongo.secretKey);

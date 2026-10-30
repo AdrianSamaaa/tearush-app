@@ -36,6 +36,15 @@ services:
         sync: false
       - key: SMTP_PASS
         sync: false
+      # ...or EmailJS instead of SMTP
+      - key: EMAILJS_SERVICE_ID
+        sync: false
+      - key: EMAILJS_TEMPLATE_ID
+        sync: false
+      - key: EMAILJS_PUBLIC_KEY
+        sync: false
+      - key: EMAILJS_PRIVATE_KEY
+        sync: false
       - key: EMAIL_DEMO_MODE
         value: "false"
       # - key: DATA_DIR

@@ -12,5 +12,5 @@ export const environment = {
    * EmailJS keys (https://www.emailjs.com) so on-device mode can email verification codes.
    * These are public keys, safe to ship. Admins can also enter them in Shop Settings.
    */
-  emailjs: { serviceId: '', templateId: '', publicKey: '' },
+  emailjs: { serviceId: 'service_kz5npmo', templateId: 'template_cks9uuh', publicKey: '_9DuyVsRITBmli_Gy' },
 };

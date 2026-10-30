@@ -16,6 +16,8 @@ export interface Integrations {
   emailjsServiceId: string;
   emailjsTemplateId: string;
   emailjsPublicKey: string;
+  /** Optional EmailJS private key ("accessToken"). Typed in Shop Settings only — never shipped in the APK. */
+  emailjsPrivateKey: string;
 }
 
 const KEY = 'tearush_integrations';
@@ -40,12 +42,19 @@ export class IntegrationsService {
     emailjsServiceId: environment.emailjs.serviceId,
     emailjsTemplateId: environment.emailjs.templateId,
     emailjsPublicKey: environment.emailjs.publicKey,
+    emailjsPrivateKey: '',
   });
 
   readonly paymentsEnabled = computed(() => isTestSecretKey(this.settings().paymongoSecretKey));
   readonly emailEnabled = computed(() => {
     const s = this.settings();
     return Boolean(s.emailjsServiceId && s.emailjsTemplateId && s.emailjsPublicKey);
+  });
+
+  /** Keys in the shape sendEmailJs() expects. */
+  readonly emailJsKeys = computed(() => {
+    const s = this.settings();
+    return { serviceId: s.emailjsServiceId, templateId: s.emailjsTemplateId, publicKey: s.emailjsPublicKey, privateKey: s.emailjsPrivateKey };
   });
 
   load(): Promise<void> {

@@ -47,19 +47,43 @@ function firstExisting(paths) {
   return paths.find((p) => p && fs.existsSync(p));
 }
 
-// --- Java: Gradle needs JDK 21 (Android Studio ships one).
+// --- Java: Gradle needs JDK 17+ (Android Studio ships one; any full JDK 21 works too).
+/** A JDK folder is usable only if it's complete (a half-updated Android Studio leaves a broken jbr). */
+const isJdk = (dir) =>
+  Boolean(dir) && fs.existsSync(path.join(dir, 'bin', isWindows ? 'java.exe' : 'java')) && fs.existsSync(path.join(dir, 'lib', 'jvm.cfg'));
+
+/** JDK folders under e.g. "C:\Program Files\Eclipse Adoptium\jdk-21…". */
+const jdksIn = (parent) =>
+  fs.existsSync(parent) ? fs.readdirSync(parent).filter((d) => /^jdk-?(1[7-9]|2\d)/.test(d)).sort().reverse().map((d) => path.join(parent, d)) : [];
+
+/** The JDK that owns the `java` on PATH, if any. */
+function javaHomeFromPath() {
+  const which = spawnSync(isWindows ? 'where' : 'which', ['java'], { encoding: 'utf8', shell: isWindows });
+  const javaExe = which.stdout?.split(/\r?\n/).find(Boolean);
+  return javaExe ? path.dirname(path.dirname(javaExe)) : null;
+}
+
 const env = { ...process.env };
-if (!env.JAVA_HOME) {
-  const jbr = firstExisting([
+if (!isJdk(env.JAVA_HOME)) {
+  const local = path.join(os.homedir(), 'AppData', 'Local', 'Programs');
+  const jdk = [
     'C:\\Program Files\\Android\\Android Studio\\jbr',
-    path.join(os.homedir(), 'AppData', 'Local', 'Programs', 'Android Studio', 'jbr'),
+    path.join(local, 'Android Studio', 'jbr'),
     '/Applications/Android Studio.app/Contents/jbr/Contents/Home',
     path.join(os.homedir(), 'android-studio', 'jbr'),
     '/opt/android-studio/jbr',
-  ]);
-  if (jbr) {
-    env.JAVA_HOME = jbr;
-    console.log(`Using Android Studio's JDK: ${jbr}`);
+    ...jdksIn(path.join(local, 'Eclipse Adoptium')),
+    ...jdksIn('C:\\Program Files\\Eclipse Adoptium'),
+    ...jdksIn('C:\\Program Files\\Java'),
+    ...jdksIn('C:\\Program Files\\Microsoft'),
+    javaHomeFromPath(),
+  ].find(isJdk);
+  if (jdk) {
+    env.JAVA_HOME = jdk;
+    console.log(`Using JDK: ${jdk}`);
+  } else {
+    console.error('No complete Java JDK (17+) found. Install Android Studio or a JDK such as Eclipse Temurin 21.');
+    process.exit(1);
   }
 }
 

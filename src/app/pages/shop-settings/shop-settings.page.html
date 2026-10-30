@@ -87,6 +87,13 @@
         <ion-item class="form-item" lines="none">
           <ion-input label="Public key" labelPlacement="stacked" [(ngModel)]="form.publicKey" placeholder="xxxxxxxxxxxxxxxx"></ion-input>
         </ion-item>
+        <ion-item class="form-item" lines="none">
+          <ion-input label="Private key (optional)" labelPlacement="stacked" type="password" [(ngModel)]="form.privateKey"
+            placeholder="Only if “Use Private Key” is on in EmailJS" autocomplete="off">
+            <ion-input-password-toggle slot="end"></ion-input-password-toggle>
+          </ion-input>
+        </ion-item>
+        <p class="form-hint">Account → Security in EmailJS. Saved on this phone only — it is never built into the app.</p>
         <div class="row">
           <ion-button shape="round" class="tea-btn" (click)="saveEmail()">Save</ion-button>
           <ion-button shape="round" fill="outline" class="tea-btn--outline" (click)="sendTestEmail()"

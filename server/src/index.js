@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import { config, paymentsEnabled } from './config.js';
+import { config, emailjsEnabled, paymentsEnabled, smtpEnabled } from './config.js';
 import { db, nowIso, seedIfEmpty } from './db.js';
 import { hashPassword } from './auth.js';
 import { ApiError } from './errors.js';
@@ -76,6 +76,9 @@ app.listen(config.port, () => {
   console.log(`TeaRush API listening on port ${config.port}`);
   console.log(`  Public URL: ${config.publicUrl}`);
   console.log(`  PayMongo:   ${paymentsEnabled() ? `enabled (${config.paymongo.methods.join(', ')})` : 'not configured — Cash on Delivery only'}`);
+  console.log(
+    `  Email:      ${smtpEnabled() ? `SMTP (${config.smtp.host})` : emailjsEnabled() ? 'EmailJS' : 'not configured — codes shown in the app (demo mode)'}`
+  );
   if (paymentsEnabled() && !config.paymongo.webhookSecret) {
     console.log('  Webhook:    PAYMONGO_WEBHOOK_SECRET not set — payments are confirmed by polling PayMongo instead.');
   }

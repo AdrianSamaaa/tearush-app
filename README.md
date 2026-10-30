@@ -25,10 +25,20 @@ Only *test* keys are accepted in the app. For real (live) payments, deploy the s
 (section 4) and put the live key there — a live secret key must never sit on a phone.
 
 ### Email verification
-New accounts get a 6-digit code by email and must verify before ordering. In the APK, set up
-**EmailJS** in Shop Settings (free, step-by-step instructions are on that page). Until then the
-app runs in *demo mode* and shows the code on the Verify Email screen. On the server, set the
-`SMTP_*` variables (e.g. a Gmail app password — see `server/.env.example`).
+New accounts get a 6-digit code by email and must verify before ordering. Emails are sent with
+**EmailJS** (or SMTP on the server). Until one is set up, the app runs in *demo mode* and shows
+the code on the Verify Email screen.
+
+EmailJS template: set **To Email** to `{{to_email}}` and use `{{code}}` (plus optional
+`{{to_name}}`, `{{app_name}}`) in the message.
+
+| Value | APK (Shop Settings) | Server (`server/.env`) |
+|---|---|---|
+| Service ID, Template ID, Public Key | enter in Shop Settings, or bake into `src/environments/environment.prod.ts` (`emailjs`) — these are public | `EMAILJS_SERVICE_ID`, `EMAILJS_TEMPLATE_ID`, `EMAILJS_PUBLIC_KEY` |
+| **Private key** (secret) | optional field in Shop Settings — saved on that phone only | `EMAILJS_PRIVATE_KEY` |
+
+The private key is never built into the APK or committed to git. For server-side sending, turn on
+*Allow EmailJS API for non-browser applications* in EmailJS → Account → Security.
 
 ```
 ├── src/                 Ionic/Angular app (all screens)

@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer';
-import { config, emailEnabled } from './config.js';
+import { config, emailjsEnabled, smtpEnabled } from './config.js';
 
 let transporter = null;
 
@@ -16,8 +16,40 @@ function getTransporter() {
 const escapeHtml = (text) =>
   text.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
 
+/**
+ * EmailJS REST API. Server-side calls need "Allow EmailJS API for non-browser
+ * applications" enabled in EmailJS → Account → Security; the private key is sent
+ * as `accessToken`. Both our variable names (to_email, code) and those of EmailJS's built-in
+ * "One-Time Password" template (email, passcode, time) are filled — same as the app's emailjs.ts.
+ */
+async function sendWithEmailJs(to, name, code) {
+  const { serviceId, templateId, publicKey, privateKey, apiUrl } = config.emailjs;
+  const first = name.split(' ')[0];
+  const expires = new Date(Date.now() + 10 * 60_000).toLocaleTimeString('en-PH', {
+    hour: 'numeric',
+    minute: '2-digit',
+    timeZone: config.timezone,
+  });
+  const res = await fetch(apiUrl, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      service_id: serviceId,
+      template_id: templateId,
+      user_id: publicKey,
+      ...(privateKey ? { accessToken: privateKey } : {}),
+      template_params: { to_email: to, email: to, to_name: first, name: first, code, passcode: code, time: expires, app_name: 'TeaRush' },
+    }),
+    signal: AbortSignal.timeout(15_000),
+  });
+  if (!res.ok) throw new Error(`EmailJS ${res.status}: ${await res.text()}`);
+}
+
 export async function sendVerificationEmail(to, name, code) {
-  if (!emailEnabled()) throw new Error('SMTP is not configured');
+  if (!smtpEnabled()) {
+    if (emailjsEnabled()) return sendWithEmailJs(to, name, code);
+    throw new Error('No email provider is configured');
+  }
   const first = escapeHtml(name.split(' ')[0]);
   await getTransporter().sendMail({
     from: config.smtp.from,
